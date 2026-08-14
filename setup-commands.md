@@ -11,19 +11,102 @@ pnpm dev
 
 ```
 
-2. setup git
-
-3. CSS Framework - shadcn setup preset: --preset b2C7ItRdS
+2. Setup GitHub Repo
 ```bash
-pnpm dlx shadcn@latest init --preset b2C7ItRdS --base radix --template next --monorepo --pointer
+git init
+git add .
+git commit -m "initiated nextjs project"
+git branch -M main
+git remote add origin https://github.com/AlfredGomes23/A5-GearUp-Frontend.git
+git push -u origin main
+```
+
+3. CSS Framework - ShadCN setup (--preset b2C7ItRdS)
+```bash
+pnpm dlx shadcn@latest init --preset b2C7ItRdS --base radix --template next --pointer
+echo '@import "tailwindcss";
+:root {
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.141 0.005 285.823);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.141 0.005 285.823);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.141 0.005 285.823);
+  --primary: oklch(0.841 0.238 128.85);
+  --primary-foreground: oklch(0.405 0.101 131.063);
+  --secondary: oklch(0.967 0.001 286.375);
+  --secondary-foreground: oklch(0.21 0.006 285.885);
+  --muted: oklch(0.967 0.001 286.375);
+  --muted-foreground: oklch(0.552 0.016 285.938);
+  --accent: oklch(0.967 0.001 286.375);
+  --accent-foreground: oklch(0.21 0.006 285.885);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.92 0.004 286.32);
+  --input: oklch(0.92 0.004 286.32);
+  --ring: oklch(0.705 0.015 286.067);
+  --chart-1: oklch(0.845 0.143 164.978);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.596 0.145 163.225);
+  --chart-4: oklch(0.508 0.118 165.612);
+  --chart-5: oklch(0.432 0.095 166.913);
+  --radius: 0.45rem;
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.141 0.005 285.823);
+  --sidebar-primary: oklch(0.648 0.2 131.684);
+  --sidebar-primary-foreground: oklch(0.986 0.031 120.757);
+  --sidebar-accent: oklch(0.967 0.001 286.375);
+  --sidebar-accent-foreground: oklch(0.21 0.006 285.885);
+  --sidebar-border: oklch(0.92 0.004 286.32);
+  --sidebar-ring: oklch(0.705 0.015 286.067);
+}
+
+.dark {
+  --background: oklch(0.141 0.005 285.823);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.21 0.006 285.885);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.21 0.006 285.885);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.768 0.233 130.85);
+  --primary-foreground: oklch(0.405 0.101 131.063);
+  --secondary: oklch(0.274 0.006 286.033);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.274 0.006 286.033);
+  --muted-foreground: oklch(0.705 0.015 286.067);
+  --accent: oklch(0.274 0.006 286.033);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.552 0.016 285.938);
+  --chart-1: oklch(0.845 0.143 164.978);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.596 0.145 163.225);
+  --chart-4: oklch(0.508 0.118 165.612);
+  --chart-5: oklch(0.432 0.095 166.913);
+  --sidebar: oklch(0.21 0.006 285.885);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.768 0.233 130.85);
+  --sidebar-primary-foreground: oklch(0.274 0.072 132.109);
+  --sidebar-accent: oklch(0.274 0.006 286.033);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.552 0.016 285.938);
+}' > './app/globals.css'
+pnpm dlx shadcn@latest add badge alert calendar card button dialog drawer dropdown-menu input-group skeleton textarea sonner popover spinner
 ```
 4. File Structure setup
 
 ```bash
-# middle-ware
-touch proxy.tsx
+# root files and middle-ware
+mkdir -p {services,types,components/shared} && touch proxy.ts app/{error,loading,not-found}.tsx
+# gear
+mkdir -p app/gear/{\[gearId\],_actions,_components} && touch app/gear/page.tsx app/gear/\[gearId\]/page.tsx
 # auth group
-mkdir -p app/auth/{register,login,_action,_components} && touch app/auth/{register,login}/page.tsx
+mkdir -p app/auth/{register,login,_actions,_components} && touch app/auth/{register,login}/page.tsx
 # dashboard
-mkdir -p app/auth/{register,login,_action,_components} && touch app/auth/{register,login}/page.tsx
+mkdir -p app/dashboard/{customer,provider,admin,_actions,_components} && touch app/dashboard/layout.tsx app/dashboard/{customer,provider,admin}/page.tsx
+# payment group
+mkdir -p app/payment/{success,cancel}
+touch app/payment/{success,cancel}/page.tsx
 ```
