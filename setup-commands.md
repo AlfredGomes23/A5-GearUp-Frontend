@@ -11,7 +11,39 @@ pnpm dev
 
 ```
 
-2. Setup GitHub Repo
+2. File Structure setup
+```bash
+# common file-folders and middle-ware
+mkdir -p {services,types,utils,components/shared} && touch proxy.ts app/{error,loading,not-found}.tsx types/types.ts types/enums.ts utils/jwt.ts components/shared/{Navbar,NavbarHandler,Footer,FooterHandler}.tsx
+
+# default middle-ware setting
+echo "import { NextRequest, NextResponse } from 'next/server';
+export const config = {
+    matcher: [
+        '/((?!api|_next/static|favicon.ico|_next/image|.*\\.png$).*)', // don't protect this route
+    ]
+};
+const proxy = async (request: NextRequest) => {
+    const pathName = request?.nextUrl?.pathname;
+    console.log(pathName);
+
+    //forward to next
+    return NextResponse.next();
+};
+export default proxy;" > proxy.ts
+
+# gear
+mkdir -p app/gear/{\[gearId\],_actions,_components} && touch app/gear/page.tsx app/gear/\[gearId\]/page.tsx
+# auth group
+mkdir -p app/auth/{register,login,_actions,_components} && touch app/auth/{register,login}/page.tsx
+# dashboard
+mkdir -p app/dashboard/{customer,provider,admin,_actions,_components} && touch app/dashboard/layout.tsx app/dashboard/{customer,provider,admin}/page.tsx
+# payment group
+mkdir -p app/payment/{success,cancel}
+touch app/payment/{success,cancel}/page.tsx
+```
+
+3. Setup GitHub Repo
 ```bash
 git init
 git add .
@@ -21,10 +53,49 @@ git remote add origin https://github.com/AlfredGomes23/A5-GearUp-Frontend.git
 git push -u origin main
 ```
 
-3. CSS Framework - ShadCN setup (--preset b2C7ItRdS)
+4. CSS Framework - ShadCN setup (--preset b2C7ItRdS)
 ```bash
 pnpm dlx shadcn@latest init --preset b2C7ItRdS --base radix --template next --pointer
 echo '@import "tailwindcss";
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --font-sans: var(--font-geist-sans);
+  --font-serif: var(--font-serif);
+}
 :root {
   --background: oklch(1 0 0);
   --foreground: oklch(0.141 0.005 285.823);
@@ -59,7 +130,6 @@ echo '@import "tailwindcss";
   --sidebar-border: oklch(0.92 0.004 286.32);
   --sidebar-ring: oklch(0.705 0.015 286.067);
 }
-
 .dark {
   --background: oklch(0.141 0.005 285.823);
   --foreground: oklch(0.985 0 0);
@@ -95,18 +165,10 @@ echo '@import "tailwindcss";
 }' > './app/globals.css'
 pnpm dlx shadcn@latest add badge alert calendar card button dialog drawer dropdown-menu input-group skeleton textarea sonner popover spinner
 ```
-4. File Structure setup
 
+
+5. Packages installation
 ```bash
-# root files and middle-ware
-mkdir -p {services,types,components/shared} && touch proxy.ts app/{error,loading,not-found}.tsx
-# gear
-mkdir -p app/gear/{\[gearId\],_actions,_components} && touch app/gear/page.tsx app/gear/\[gearId\]/page.tsx
-# auth group
-mkdir -p app/auth/{register,login,_actions,_components} && touch app/auth/{register,login}/page.tsx
-# dashboard
-mkdir -p app/dashboard/{customer,provider,admin,_actions,_components} && touch app/dashboard/layout.tsx app/dashboard/{customer,provider,admin}/page.tsx
-# payment group
-mkdir -p app/payment/{success,cancel}
-touch app/payment/{success,cancel}/page.tsx
-```
+pnpm add jsonwebtoken && pnpm add @types/jsonwebtoken 
+
+````
