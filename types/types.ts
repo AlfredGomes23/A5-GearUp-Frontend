@@ -2,23 +2,15 @@ export type IUser = {
     success : boolean,
     message : string,
     data : {
-        profile : {
             id : string,
             name : string,
             email : string,
-            activeStatus : string,
+            status : string,
             role : string,
+            phone: string;
+            photoUrl: string
             createdAt : string,
             updatedAt : string,
-            profile : {
-                id : string,
-                profilePhoto : string,
-                bio : string | null,
-                userId : string,
-                createdAt : string,
-                updatedAt : string
-            }
-        }
     }
 }
 

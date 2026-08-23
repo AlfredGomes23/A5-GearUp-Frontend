@@ -1,22 +1,34 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {  useState } from "react";
+import { useActionState, useEffect, useState } from "react";
+import { toast } from "sonner";
+import { registerAction } from "../_actions/registerAction";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { Label } from "@/components/ui/label";
 import { UserRole } from "@/types/enums";
-
+import { useRouter } from "next/navigation";
 
 const RegisterForm = () => {
-
+  const [state, action, pending] = useActionState(registerAction, false);
+  const router = useRouter();
 
   const [role, setRole] = useState<string>(UserRole.CUSTOMER);
 
+  useEffect(() => {
+    console.log(state);
+    if (!state) return;
+    if (state.success) {
+      toast.success(state.message || "Registration Successful..");
+      router.push('/dashboard');
+    }
+    if (!state.success) toast.error(state.message || "Login Failed.");
+  }, [state, router]);
 
+  console.log(registerAction);
 
   return (
-    <form className="">
-      <div className="p-5 space-y-4">
+    <form action={action} className="p-5 space-y-4">
         <Input
           name="name"
           type="text"
@@ -43,7 +55,6 @@ const RegisterForm = () => {
           type="tel"
           placeholder="enter your Phone"
           className="border-0 outline outline-primary rounded-lg focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-0 focus-visible:border-primary"
-          required
         />
 
       <ToggleGroup
@@ -70,15 +81,14 @@ const RegisterForm = () => {
           </div>
       </ToggleGroup>
       
-      {/* Hidden input to ensure native form submission captures the selected role value */}
       <input type="hidden" name="role" value={role} />
-    </div>
 
         <Button
-          type="submit"         
+          type="submit"
+          disabled={pending}
           className="bg-transparent border border-primary w-fit mx-auto rounded-lg text-primary hover:text-accent"
         >
-          { "Register"}
+          {pending ? "Registering..." : "Register"}
         </Button>
     </form>
   );

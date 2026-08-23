@@ -23,7 +23,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <NavbarHandler/>
         {children}
         <FooterHandler/>
-        <Toaster position="top-right" richColors />
+        <Toaster position="bottom-center" richColors />
         </body>
     </html>
   );

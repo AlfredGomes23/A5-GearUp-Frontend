@@ -1,35 +1,25 @@
 "use client";
 
 import logo from "../../app/favicon.ico";
-import { CircleUser, LogOut, User } from "lucide-react";
+import { CircleUser, LogOut } from "lucide-react";
 import Link from "next/link";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import Image from "next/image";
 import { NavbarProps } from "@/types/types";
 import { navItems } from "@/lib/navigation";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "../ui/tooltip";
+import logout from "@/app/auth/_actions/logout";
 
 const Navbar = ({ user }: NavbarProps) => {
   const router = useRouter();
+  console.log(router);
 
   const handleUserMenuAction = async (action: string) => {
     if (action === "logout") {
-      toast.success("User Logged Out Successfully!");
+      await logout();
+      toast.warning("User Logged Out Successfully!");
+      router.push("/auth/login");
     }
   };
 
@@ -61,60 +51,35 @@ const Navbar = ({ user }: NavbarProps) => {
         {/* Right: User Dropdown / Login */}
         <div className="flex items-center gap-2 z-10">
           {user.success ? (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <div className="cursor-pointer">
-                  <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
-                    <User className="w-4 h-4 text-primary" />
-                  </div>
-                </div>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-56">
-                <DropdownMenuLabel className="font-normal">
-                  <div className="flex flex-col gap-1">
-                    <p className="text-sm font-medium">
-                      {user.data?.profile.name}
-                    </p>
-                    <p className="text-xs text-muted-foreground">
-                      {user.data?.profile.email}
-                    </p>
-                  </div>
-                </DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem
+            <div className="cursor-pointer text-primary bg-primary/10 flex items-center gap-1 border-2 border-primary rounded-lg w-fit p-1">
+              <div className="flex flex-col gap-1 text-right">
+                <p className="text-sm font-medium">{user.data?.name}</p>
+                <p className="text-xs text-muted-foreground">
+                  {user.data?.email}
+                </p>
+              </div>
+              <div className="w-10 h-10 flex items-center justify-center hover:bg-primary hover:text-accent rounded-lg border">
+                <LogOut
                   onClick={async () => {
                     await handleUserMenuAction("logout");
                   }}
-                >
-                  <LogOut className="w-4 h-4 mr-2" />
-                  <span>Log out</span>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+                  className="w-8 h-8"
+                />
+              </div>
+            </div>
           ) : (
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Link href="/auth/login">
-                    <Button
-                      size="icon"
-                      className="cursor-pointer text-primary hover:text-accent bg-transparent hover:bg-primary"
-                    >
-                      <CircleUser
-                        style={{ width: 32, height: 32 }}
-                        strokeWidth={1.5}
-                      />
-                    </Button>
-                  </Link>
-                </TooltipTrigger>
-                <TooltipContent
-                  side="left"
-                  className="bg-transparent text-black outline outline-primary rounded-lg"
-                >
-                  <p>Login your Account</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+            // login
+            <Link href="/auth/login">
+              <Button
+                size="icon"
+                className="cursor-pointer text-primary hover:text-accent bg-transparent flex items-center gap-1 border-2 border-primary hover:shadow shadow-primary rounded-lg hover:bg-primary w-fit p-1">
+              <p className="text-sm font-bold">Login</p>
+                <CircleUser
+                  style={{ width: 32, height: 32 }}
+                  strokeWidth={1.5}
+                />
+              </Button>
+            </Link>
           )}
         </div>
       </div>

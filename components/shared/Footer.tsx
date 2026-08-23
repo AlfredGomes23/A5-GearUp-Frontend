@@ -9,7 +9,7 @@ import { navItems } from "@/lib/navigation";
 export default function Footer() {
   return (
     <footer className="flex-3 pb-3 items-center">
-      <div className=" flex flex-col md:flex-row gap-3 pb-3">
+      <div className=" flex flex-col md:flex-row items-center gap-3 pb-3">
         {/* Navigation Links */}
         <div className=" flex gap-3 text-blue-700 mx-auto">
           <Link
@@ -34,13 +34,13 @@ export default function Footer() {
 
         {/* Social Icons */}
         <div className="flex gap-3 mx-auto">
-          <Link href={"/x.com"}>
+          <Link href={"/x.com"} className="hover:bg-primary p-1 rounded-sm">
             <Image src={x} alt="X" />
           </Link>
-          <Link href={"/facebook.com"}>
+          <Link href={"/facebook.com"} className="hover:bg-primary p-1 rounded-sm">
             <Image src={fb} alt="Facebook" />
           </Link>
-          <Link href={"/youtube.com"}>
+          <Link href={"/youtube.com"} className="hover:bg-primary p-1 rounded-sm">
             <Image src={you} alt="youtube" />
           </Link>
         </div>
