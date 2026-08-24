@@ -16,7 +16,6 @@ const RegisterForm = () => {
   const [role, setRole] = useState<string>(UserRole.CUSTOMER);
 
   useEffect(() => {
-    console.log(state);
     if (!state) return;
     if (state.success) {
       toast.success(state.message || "Registration Successful..");
@@ -25,7 +24,6 @@ const RegisterForm = () => {
     if (!state.success) toast.error(state.message || "Login Failed.");
   }, [state, router]);
 
-  console.log(registerAction);
 
   return (
     <form action={action} className="p-5 space-y-4">

@@ -9,11 +9,10 @@ import { toast } from "sonner";
 import Image from "next/image";
 import { NavbarProps } from "@/types/types";
 import { navItems } from "@/lib/navigation";
-import logout from "@/app/auth/_actions/logout";
+import logout from "@/app/auth/_actions/logoutAction";
 
 const Navbar = ({ user }: NavbarProps) => {
   const router = useRouter();
-  console.log(router);
 
   const handleUserMenuAction = async (action: string) => {
     if (action === "logout") {

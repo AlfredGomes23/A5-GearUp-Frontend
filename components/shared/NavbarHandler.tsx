@@ -1,4 +1,3 @@
-import React from 'react';
 import Navbar from './Navbar';
 import { navItems } from '@/lib/navigation';
 import Link from 'next/link';
@@ -6,7 +5,7 @@ import { getUser } from '@/services/getUser';
 
 const NavbarHandler = async () => {
     const user = await getUser();
-    console.log(user);
+    // console.log("navbar", user);
 
     return (
         <div className='border-b border-primary'>
