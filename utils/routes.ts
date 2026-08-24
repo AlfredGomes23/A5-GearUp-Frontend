@@ -7,3 +7,4 @@ export const Customer_ROUTES = ['/dashboard/customer', '/dashboard/customer/orde
 export const Provider_ROUTES = ['/dashboard/provider', '/dashboard/provider/gear/new', '/dashboard/provider/orders'];
 
 export const ADMIN_ROUTES = ['/dashboard/admin'];
+
