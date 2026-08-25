@@ -25,6 +25,7 @@ const Navbar = ({ user }: NavbarProps) => {
   return (
     <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       {/* Added `relative` to parent container so absolute positioning targets the navbar */}
+      
       <div className="relative flex items-center justify-between h-16">
         {/* Left: Logo */}
         <Link href="/" className="shrink-0 z-10">

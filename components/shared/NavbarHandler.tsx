@@ -1,7 +1,7 @@
 import Navbar from './Navbar';
-import { navItems } from '@/lib/navigation';
 import Link from 'next/link';
 import { getUser } from '@/services/getUser';
+import { navItems } from '@/lib/navigation';
 
 const NavbarHandler = async () => {
     const user = await getUser();
