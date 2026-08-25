@@ -70,3 +70,9 @@ export type IListRes<T> = {
     data: T[];
     metaData: IMetaData;
 };
+
+export type ISingleRes<T> = {
+    success: boolean;
+    message: string;
+    data: T;
+};
