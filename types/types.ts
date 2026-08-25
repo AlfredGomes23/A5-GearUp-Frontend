@@ -33,3 +33,40 @@ export interface NavItem {
     label: string;
     href: string;
 }
+
+export type ICategory = {
+    id: string;
+    name: string;
+};
+
+export type IGear = {
+    id: string;
+    title: string;
+    description: string;
+    brand: string;
+    isAvailable: boolean;
+    stock: number;
+    pricePerDay: number;
+    category: ICategory;
+    provider: {
+        id: string;
+        email: string;
+        phone?: string | null;
+    };
+    createdAt: string;
+    updatedAt: string;
+};
+
+export type IMetaData = {
+    page: number;
+    limit: number;
+    total: number;
+    totalPage: number;
+};
+
+export type IListRes<T> = {
+    success: boolean;
+    message: string;
+    data: T[];
+    metaData: IMetaData;
+};

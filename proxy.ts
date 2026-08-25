@@ -38,6 +38,8 @@ const proxy = async (request: NextRequest) => {
         if (reqUserRole && isAuthRoute) {
         return NextResponse.redirect(new URL(`/dashboard/${reqUserRole.toLowerCase()}`, request.url));
         };
+        // dynamic routing for dashboard navlink
+        if (reqUserRole && pathname === "/dashboard") return NextResponse.redirect(new URL(`/dashboard/${reqUserRole.toLowerCase()}`, request.url));
 
         // check if not public route
         const isPublicRoute = PUBLIC_ROUTES.includes(pathname) || pathname.startsWith('/gear/') || isAuthRoute;
