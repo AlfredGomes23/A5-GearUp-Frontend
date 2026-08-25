@@ -3,22 +3,19 @@
 import { getAccessToken } from "./getAccessToken";
 
 export const getUser = async () => {
-
-    // get access token
     const accessToken = await getAccessToken();
-    // console.log(accessToken);
+
+    if (!accessToken) {
+        return { success: false, message: "User Not Logged In!" };
+    }
 
     const res = await fetch(`${process.env.BACKEND_API_URL}/api/auth/me`, {
         headers: {
-            Cookie: `accessToken=${accessToken}`
+            Cookie: `accessToken=${accessToken}`,
         },
-        cache: "force-cache",
-        next: { revalidate: 60 * 60 * 24, tags: ["me"] }
+        cache: "no-store",
     });
 
     const result = await res.json();
-
-    // console.log(result);
-
     return result;
 };

@@ -4,15 +4,15 @@ export const getGears = async (searchParams: Record<string, string | undefined>)
     const query = new URLSearchParams(
         Object.entries(searchParams).filter((entry): entry is [string, string] => Boolean(entry[1]))
     ).toString();
-    // console.log(query, "query");
 
-    const res = await fetch(`${process.env.BACKEND_API_URL}/api/gear?${query}`, {
-        cache: "no-store",
-    });
+    try {
+        const res = await fetch(`${process.env.BACKEND_API_URL}/api/gear?${query}`, {
+            cache: "no-store",
+        });
 
-    const result = await res.json();
-    // console.log(result);
-
-    // backend error responses omit data/metaData
-    return { ...result, data: result?.data ?? [], metaData: result?.metaData };
+        const result = await res.json();
+        return { ...result, data: result?.data ?? [], metaData: result?.metaData };
+    } catch {
+        return { success: false, message: "Failed to fetch gears", data: [], metaData: { page: 1, limit: 12, total: 0, totalPage: 0 } };
+    }
 };

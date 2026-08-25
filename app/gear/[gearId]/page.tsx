@@ -3,16 +3,23 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, Dumbbell, Mail, Phone } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { getGearById } from "@/app/gear/_actions/getGearById";
+import { getGearById } from "@/app/gear/[gearId]/_actions/getGearById";
+import { getUser } from "@/services/getUser";
+import { UserRole } from "@/types/enums";
 import RentDatePicker from "./_components/RentDatePicker";
 
 type GearDetailParams = Promise<{ gearId: string }>;
 
 const GearDetailPage = async ({ params }: { params: GearDetailParams }) => {
   const { gearId } = await params;
-  const { data: gear } = await getGearById(gearId);
+  const [{ data: gear }, userRes] = await Promise.all([
+    getGearById(gearId),
+    getUser(),
+  ]);
 
   if (!gear) notFound();
+
+  const isCustomer = userRes?.success && userRes?.data?.role === UserRole.CUSTOMER;
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col gap-6">
@@ -148,14 +155,16 @@ const GearDetailPage = async ({ params }: { params: GearDetailParams }) => {
           </Card>
 
           {/* Rent Card */}
-          <Card className="sticky top-24">
-            <CardHeader>
-              <CardTitle>Rent This Gear</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <RentDatePicker />
-            </CardContent>
-          </Card>
+          {isCustomer && (
+            <Card className="sticky top-24">
+              <CardHeader>
+                <CardTitle>Rent This Gear</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <RentDatePicker gearId={gearId} />
+              </CardContent>
+            </Card>
+          )}
         </div>
       </div>
     </div>
