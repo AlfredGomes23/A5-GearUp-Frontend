@@ -20,7 +20,7 @@ export const navItems: NavItem[] = [
 
 export const roleNavItems: Record< string, { label: string; href: string; icon: React.ElementType }[] > = {
   [UserRole.CUSTOMER]: [
-    { label: "My Rentals", href: "/dashboard/customer/orders", icon: NotebookPenIcon },
+    { label: "My Rental Orders", href: "/dashboard/customer/orders", icon: NotebookPenIcon },
     {
       label: "My Payments",
       href: "/dashboard/customer/payments",
@@ -28,7 +28,7 @@ export const roleNavItems: Record< string, { label: string; href: string; icon: 
     },
   ],
   [UserRole.PROVIDER]: [
-    { label: "My Gear", href: "/dashboard/provider/gear", icon: Dumbbell },
+    { label: "My Gears", href: "/dashboard/provider/gear", icon: Dumbbell },
     {
       label: "Rental Orders",
       href: "/dashboard/provider/orders",

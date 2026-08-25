@@ -76,3 +76,13 @@ export type ISingleRes<T> = {
     message: string;
     data: T;
 };
+
+export type IRental = {
+    id: string;
+    startDate: string;
+    endDate: string;
+    totalCost: number;
+    status: string;
+    gear: IGear;
+    createdAt: string;
+};
