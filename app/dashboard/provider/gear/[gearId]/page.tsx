@@ -3,12 +3,16 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, Dumbbell } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { getProviderGearById } from "./_actions/getProviderGearById";
-import GearForm from "./_components/GearForm";
+import { getProviderGearById } from "../../_actions/getProviderGearById";
+import GearForm from "../../_components/GearForm";
 
 type GearDetailParams = Promise<{ gearId: string }>;
 
-const ProviderGearDetailPage = async ({ params }: { params: GearDetailParams }) => {
+const ProviderGearDetailPage = async ({
+  params,
+}: {
+  params: GearDetailParams;
+}) => {
   const { gearId } = await params;
   const { data: gear } = await getProviderGearById(gearId);
 
@@ -60,22 +64,34 @@ const ProviderGearDetailPage = async ({ params }: { params: GearDetailParams }) 
             </CardHeader>
             <CardContent className="flex flex-col gap-4">
               <div className="flex flex-col gap-1">
-                <span className="text-xs text-muted-foreground uppercase tracking-wide">Price</span>
+                <span className="text-xs text-muted-foreground uppercase tracking-wide">
+                  Price
+                </span>
                 <span className="text-2xl font-bold text-primary">
                   ${gear.pricePerDay}
-                  <span className="text-sm font-normal text-muted-foreground">/day</span>
+                  <span className="text-sm font-normal text-muted-foreground">
+                    /day
+                  </span>
                 </span>
               </div>
               <div className="flex flex-col gap-1">
-                <span className="text-xs text-muted-foreground uppercase tracking-wide">Stock</span>
+                <span className="text-xs text-muted-foreground uppercase tracking-wide">
+                  Stock
+                </span>
                 <span className="text-2xl font-bold">{gear.stock}</span>
               </div>
               <div className="flex flex-col gap-1">
-                <span className="text-xs text-muted-foreground uppercase tracking-wide">Category</span>
-                <span className="text-lg font-semibold">{gear.category?.name}</span>
+                <span className="text-xs text-muted-foreground uppercase tracking-wide">
+                  Category
+                </span>
+                <span className="text-lg font-semibold">
+                  {gear.category?.name}
+                </span>
               </div>
               <div className="flex flex-col gap-1">
-                <span className="text-xs text-muted-foreground uppercase tracking-wide">Brand</span>
+                <span className="text-xs text-muted-foreground uppercase tracking-wide">
+                  Brand
+                </span>
                 <span className="text-lg font-semibold">{gear.brand}</span>
               </div>
             </CardContent>

@@ -36,7 +36,7 @@ export const roleNavItems: Record< string, { label: string; href: string; icon: 
     },
     {
       label: "My Payments",
-      href: "/payment",
+      href: "/dashboard/provider/payments",
       icon: BanknoteArrowUpIcon,
     },
   ],
@@ -45,6 +45,6 @@ export const roleNavItems: Record< string, { label: string; href: string; icon: 
     { label: "Categories", href: "/dashboard/admin/categories", icon: Tag },
     // { label: "All Gear", href: "/dashboard/admin/gear", icon: Dumbbell },
     { label: "Rentals", href: "/dashboard/admin/rental-orders", icon: NotebookPenIcon },
-    { label: "Payments", href: "/payments", icon: BanknoteArrowUpIcon },
+    { label: "Payments", href: "/dashboard/admin/payments", icon: BanknoteArrowUpIcon },
   ],
 };

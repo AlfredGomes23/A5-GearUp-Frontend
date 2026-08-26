@@ -3,7 +3,7 @@ import { ChevronLeft, ChevronRight, Dumbbell, Plus } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { getMyGear } from "./_actions/getMyGear";
+import { getMyGear } from "../_actions/getMyGear";
 import { SearchParams } from "../../_components/types";
 
 const ProviderGearPage = async ({ searchParams }: { searchParams: SearchParams }) => {
@@ -28,9 +28,11 @@ const ProviderGearPage = async ({ searchParams }: { searchParams: SearchParams }
             {metaData?.total ?? gears.length} gear{(metaData?.total ?? gears.length) === 1 ? "" : ""} listed
           </p>
         </div>
-        <Button disabled>
-          <Plus className="size-4" />
-          Create Gear
+        <Button asChild>
+          <Link href="/dashboard/provider/gear/new">
+            <Plus className="size-4" />
+            Create Gear
+          </Link>
         </Button>
       </div>
 
