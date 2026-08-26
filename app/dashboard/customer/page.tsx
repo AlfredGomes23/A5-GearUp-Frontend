@@ -4,25 +4,9 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getMyOrders } from "./_actions/getMyOrders";
+import { statusVariant } from "../_components/types";
 
-const statusVariant = (status: string) => {
-  switch (status) {
-    case "PLACED":
-      return "secondary";
-    case "CONFIRMED":
-      return "outline";
-    case "PAID":
-      return "default";
-    case "PICKED_UP":
-      return "default";
-    case "RETURNED":
-      return "secondary";
-    case "CANCELLED":
-      return "destructive";
-    default:
-      return "outline";
-  }
-};
+
 
 const CustomerDashboard = async () => {
   const { data: orders } = await getMyOrders({ limit: "5" });
@@ -86,7 +70,7 @@ const CustomerDashboard = async () => {
               {orders.map((order) => (
                 <Link
                   key={order.id}
-                  href={`/dashboard/customer/orders/${order.id}`}
+                  href={`/dashboard/customer/orders/${order.id}/pay`}
                   className="flex items-center justify-between p-3 rounded-lg border hover:bg-muted/50 transition-colors"
                 >
                   <div className="flex flex-col gap-1">

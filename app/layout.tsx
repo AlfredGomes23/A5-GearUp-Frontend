@@ -21,10 +21,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="min-h-screen flex flex-col mx-auto max-w-7xl">
         <NavbarHandler/>
-        {children}
+        <div className="flex-1 flex flex-col">
+          {children}
+        </div>
         <FooterHandler/>
         <Toaster position="bottom-center" richColors />
-        </body>
+      </body>
     </html>
   );
 }

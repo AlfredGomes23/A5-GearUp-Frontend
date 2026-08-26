@@ -1,11 +1,10 @@
-import React from 'react';
+import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 
 const PaymentSuccessPage = async () => {
-    return (
-        <div>
-            PaymentSuccessPage
-        </div>
-    );
+  revalidatePath("/dashboard/customer/orders");
+  revalidatePath("/dashboard/customer");
+  redirect("/dashboard/customer/orders");
 };
 
 export default PaymentSuccessPage;

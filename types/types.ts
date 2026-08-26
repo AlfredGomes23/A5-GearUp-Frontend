@@ -81,8 +81,18 @@ export type IRental = {
     id: string;
     startDate: string;
     endDate: string;
-    totalCost: number;
+    totalPrice: number;
     status: string;
-    gear: IGear;
+    gear: {
+        id: string;
+        title: string;
+        brand?: string;
+        category?: ICategory;
+        provider?: {
+            id: string;
+            email: string;
+            phone?: string | null;
+        };
+    };
     createdAt: string;
 };

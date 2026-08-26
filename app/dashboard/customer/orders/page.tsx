@@ -4,27 +4,9 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { getMyOrders } from "../_actions/getMyOrders";
+import { SearchParams, statusVariant } from "../../_components/types";
 
-type SearchParams = Promise<Record<string, string | string[] | undefined>>;
 
-const statusVariant = (status: string) => {
-  switch (status) {
-    case "PLACED":
-      return "secondary";
-    case "CONFIRMED":
-      return "outline";
-    case "PAID":
-      return "default";
-    case "PICKED_UP":
-      return "default";
-    case "RETURNED":
-      return "secondary";
-    case "CANCELLED":
-      return "destructive";
-    default:
-      return "outline";
-  }
-};
 
 const OrdersPage = async ({ searchParams }: { searchParams: SearchParams }) => {
   const sp = await searchParams;
@@ -61,7 +43,7 @@ const OrdersPage = async ({ searchParams }: { searchParams: SearchParams }) => {
           {orders.map((order) => (
             <Link
               key={order.id}
-              href={`/dashboard/customer/orders/${order.id}`}
+              href={`/dashboard/customer/orders/${order.id}/pay`}
               className="flex items-center justify-between p-4 rounded-lg border hover:bg-muted/50 transition-colors"
             >
               <div className="flex flex-col gap-1">
@@ -69,7 +51,7 @@ const OrdersPage = async ({ searchParams }: { searchParams: SearchParams }) => {
                 <span className="text-sm text-muted-foreground">
                   {order.startDate} — {order.endDate}
                 </span>
-                <span className="text-sm font-medium">${order.totalCost}</span>
+                <span className="text-sm font-medium">${order.totalPrice}</span>
               </div>
               <Badge variant={statusVariant(order.status) as "default" | "secondary" | "destructive" | "outline"}>
                 {order.status}

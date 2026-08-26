@@ -1,11 +1,7 @@
-import React from 'react';
+import { redirect } from "next/navigation";
 
 const PaymentCancelPage = async () => {
-    return (
-        <div>
-            PaymentCancelPage
-        </div>
-    );
+  redirect("/dashboard/customer/orders");
 };
 
 export default PaymentCancelPage;
