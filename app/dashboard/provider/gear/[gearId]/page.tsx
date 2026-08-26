@@ -2,11 +2,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, Dumbbell } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { getProviderGearById } from "./_actions/getProviderGearById";
+import GearForm from "./_components/GearForm";
 
 type GearDetailParams = Promise<{ gearId: string }>;
 
@@ -31,7 +29,6 @@ const ProviderGearDetailPage = async ({ params }: { params: GearDetailParams }) 
           <h1 className="text-2xl font-bold">Edit Gear</h1>
           <p className="text-muted-foreground">{gear.title}</p>
         </div>
-        <Button disabled>Update Gear</Button>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -50,31 +47,8 @@ const ProviderGearDetailPage = async ({ params }: { params: GearDetailParams }) 
             <CardHeader>
               <CardTitle>Basic Information</CardTitle>
             </CardHeader>
-            <CardContent className="flex flex-col gap-4">
-              <div className="flex flex-col gap-2">
-                <Label htmlFor="title">Title</Label>
-                <Input id="title" defaultValue={gear.title} disabled />
-              </div>
-              <div className="flex flex-col gap-2">
-                <Label htmlFor="description">Description</Label>
-                <textarea
-                  id="description"
-                  defaultValue={gear.description}
-                  disabled
-                  rows={4}
-                  className="flex w-full rounded-md border border-input bg-muted px-3 py-2 text-sm opacity-70 cursor-not-allowed"
-                />
-              </div>
-              <div className="flex items-center gap-3">
-                <Label htmlFor="isAvailable">Available</Label>
-                <input
-                  type="checkbox"
-                  id="isAvailable"
-                  defaultChecked={gear.isAvailable}
-                  disabled
-                  className="h-4 w-4"
-                />
-              </div>
+            <CardContent>
+              <GearForm gear={gear} />
             </CardContent>
           </Card>
         </div>
