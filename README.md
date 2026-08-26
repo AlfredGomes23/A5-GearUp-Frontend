@@ -1,6 +1,6 @@
 # GearUp Frontend
 
-[Front Live Server]()
+[Frontend Live Server](https://gearup-frontend-eight.vercel.app/)
 
 [Project Requirement](./GearUp-Frontend-requirements.md)
 
