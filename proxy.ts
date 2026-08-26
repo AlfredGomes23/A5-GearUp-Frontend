@@ -17,7 +17,12 @@ const proxy = async (request: NextRequest) => {
     const { pathname } = request?.nextUrl;
     // console.log("route: ", pathname);
 
-    const goto = (path: string) => NextResponse.redirect(new URL(path, request.url));
+    const redirectToLogin = () => {
+        const response = NextResponse.redirect(new URL("/auth/login", request.url));
+        response.cookies.delete("accessToken");
+        response.cookies.delete("refreshToken");
+        return response;
+    };
 
     try {
         // get-verify the token and decode the user
@@ -47,14 +52,17 @@ const proxy = async (request: NextRequest) => {
         if (!reqUserRole && !isPublicRoute) {
             const loginUrl = new URL('/auth/login', request.url);
             loginUrl.searchParams.set('redirectTo', pathname);
-            return NextResponse.redirect(loginUrl);
+            const response = NextResponse.redirect(loginUrl);
+            response.cookies.delete("accessToken");
+            response.cookies.delete("refreshToken");
+            return response;
         };
 
         // get the allowed roles for current path
         const allowedRoles = roleBasedAccess(pathname);
         // confirm the allowed role for routes
         if (allowedRoles.length > 0 && (!reqUserRole || !allowedRoles.includes(reqUserRole))) {
-            return NextResponse.redirect(new URL("/auth/login", request.url));
+            return redirectToLogin();
         }
 
         //forward to next
@@ -67,7 +75,7 @@ const proxy = async (request: NextRequest) => {
         console.error("Middleware Error:", error);
 
         // return NextResponse.json(  { success: false, message: "Internal Server Error in Middleware" }, { status: 500 } );
-        return NextResponse.redirect(new URL("/auth/login", request.url));
+        return redirectToLogin();
     }
 };
 
