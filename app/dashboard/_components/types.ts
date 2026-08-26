@@ -12,6 +12,12 @@ export const statusVariant = (status: string) => {
       return "secondary";
     case "CANCELLED":
       return "destructive";
+    case "PENDING":
+      return "outline";
+    case "COMPLETED":
+      return "default";
+    case "FAILED":
+      return "destructive";
     default:
       return "outline";
   }

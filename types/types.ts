@@ -96,3 +96,21 @@ export type IRental = {
     };
     createdAt: string;
 };
+
+export type IPayment = {
+    id: string;
+    amount: number;
+    status: string;
+    transactionId: string;
+    provider: string;
+    paidAt: string | null;
+    rentalOrderId: string;
+    createdAt: string;
+    updatedAt: string;
+    rentalOrder: {
+        id: string;
+        status: string;
+        customerId: string;
+        gearId: string;
+    };
+};

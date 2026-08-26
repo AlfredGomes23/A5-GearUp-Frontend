@@ -1,7 +1,7 @@
 import { UserRole } from "@/types/enums";
 
 const ROLE_ROUTE_MAP: Record<UserRole, string[]> = {
-    [UserRole.CUSTOMER]: ['/dashboard/customer', '/payment'],
+    [UserRole.CUSTOMER]: ['/dashboard/customer'],
     [UserRole.PROVIDER]: ['/dashboard/provider'],
     [UserRole.ADMIN]: ['/dashboard/admin'],
 };

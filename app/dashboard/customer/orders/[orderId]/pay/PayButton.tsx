@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import { createCheckout } from "../_actions/createCheckout";
+import { createCheckout } from "../../../_actions/createCheckout";
 
 type PayButtonProps = {
   orderId: string;
@@ -24,7 +24,10 @@ const PayButton = ({ orderId, status }: PayButtonProps) => {
     const result = await createCheckout(orderId);
 
     if (result.success && result.data?.checkout_url) {
-      sessionStorage.setItem("successPaymentReturnUrl", `/dashboard/customer/orders/${orderId}/pay`);
+      sessionStorage.setItem(
+        "successPaymentReturnUrl",
+        `/dashboard/customer/orders/${orderId}/pay`,
+      );
       window.location.replace(result.data.checkout_url);
     } else {
       toast.error(result.message || "Failed to create checkout session");
@@ -33,12 +36,7 @@ const PayButton = ({ orderId, status }: PayButtonProps) => {
   };
 
   return (
-    <Button
-      className="w-full"
-      size="lg"
-      disabled={loading}
-      onClick={handlePay}
-    >
+    <Button className="w-full" size="lg" disabled={loading} onClick={handlePay}>
       {loading ? (
         <>
           <Loader2 className="mr-2 size-4 animate-spin" />

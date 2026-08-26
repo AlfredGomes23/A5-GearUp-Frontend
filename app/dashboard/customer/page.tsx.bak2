@@ -18,57 +18,33 @@ const CustomerDashboard = async () => {
         <p className="text-muted-foreground">Welcome back! Here&apos;s your rental overview.</p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">Rentals</CardTitle>
+            <CardTitle className="text-sm font-medium text-muted-foreground">Total Rentals</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="flex items-center gap-4">
-              <div className="flex flex-col">
-                <span className="text-xs text-muted-foreground">Total</span>
-                <span className="text-xl font-bold">{orders.length}</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-xs text-muted-foreground">Rented</span>
-                <span className="text-xl font-bold text-blue-600 dark:text-blue-400">
-                  {orders.filter((o) => o.status === "PICKED_UP").length}
-                </span>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-xs text-muted-foreground">Returned</span>
-                <span className="text-xl font-bold text-green-600 dark:text-green-400">
-                  {orders.filter((o) => o.status === "RETURNED").length}
-                </span>
-              </div>
-            </div>
+            <p className="text-2xl font-bold">{orders.length}</p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">Payments</CardTitle>
+            <CardTitle className="text-sm font-medium text-muted-foreground">Rented</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="flex items-center gap-4">
-              <div className="flex flex-col">
-                <span className="text-xs text-muted-foreground">Completed</span>
-                <span className="text-xl font-bold text-green-600 dark:text-green-400">
-                  {payments.filter((p) => p.status === "COMPLETED").length}
-                </span>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-xs text-muted-foreground">Pending</span>
-                <span className="text-xl font-bold text-yellow-600 dark:text-yellow-400">
-                  {payments.filter((p) => p.status === "PENDING").length}
-                </span>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-xs text-muted-foreground">Failed</span>
-                <span className="text-xl font-bold text-red-600 dark:text-red-400">
-                  {payments.filter((p) => p.status === "FAILED").length}
-                </span>
-              </div>
-            </div>
+            <p className="text-2xl font-bold">
+              {orders.filter((o) => o.status === "PICKED_UP").length}
+            </p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium text-muted-foreground">Returned</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-2xl font-bold">
+              {orders.filter((o) => o.status === "RETURNED").length}
+            </p>
           </CardContent>
         </Card>
       </div>

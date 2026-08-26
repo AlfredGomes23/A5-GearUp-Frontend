@@ -25,7 +25,7 @@ const RentDatePicker = ({ gearId }: { gearId: string }) => {
   const days =
     range?.from && range?.to
       ? Math.ceil(
-          (range.to.getTime() - range.from.getTime()) / (1000 * 60 * 60 * 24)
+          (range.to.getTime() - range.from.getTime()) / (1000 * 60 * 60 * 24),
         ) + 1
       : 0;
 
@@ -56,19 +56,15 @@ const RentDatePicker = ({ gearId }: { gearId: string }) => {
             variant="outline"
             className={cn(
               "w-full justify-start text-left font-normal",
-              !range?.from && "text-muted-foreground"
+              !range?.from && "text-muted-foreground",
             )}
           >
             <CalendarIcon className="mr-2 size-4" />
-            {range?.from ? (
-              range?.to ? (
-                `${format(range.from, "MMM d")} — ${format(range.to, "MMM d, yyyy")}`
-              ) : (
-                format(range.from, "PPP")
-              )
-            ) : (
-              "Pick rental dates"
-            )}
+            {range?.from
+              ? range?.to
+                ? `${format(range.from, "MMM d")} — ${format(range.to, "MMM d, yyyy")}`
+                : format(range.from, "PPP")
+              : "Pick rental dates"}
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-auto p-0" align="start">
@@ -88,9 +84,7 @@ const RentDatePicker = ({ gearId }: { gearId: string }) => {
       {days > 0 && (
         <div className="text-sm text-muted-foreground">
           Total:{" "}
-          <span className="font-semibold text-foreground">
-            {days} day(s)
-          </span>
+          <span className="font-semibold text-foreground">{days} day(s)</span>
         </div>
       )}
 
