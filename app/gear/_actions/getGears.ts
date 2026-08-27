@@ -7,7 +7,7 @@ export const getGears = async (searchParams: Record<string, string | undefined>)
 
     try {
         const res = await fetch(`${process.env.BACKEND_API_URL}/api/gear?${query}`, {
-            cache: "no-store",
+            next: { revalidate: 30 },
         });
 
         const result = await res.json();

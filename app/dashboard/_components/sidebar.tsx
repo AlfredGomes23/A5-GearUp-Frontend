@@ -30,7 +30,8 @@ const DashboardSidebar = ({ user }: { user: IUser }) => {
   const dashboardHref = `/dashboard/${user.role.toLowerCase()}`;
 
   return (
-    <Sidebar collapsible="icon">
+    <Sidebar collapsible="icon" style={{ "--sidebar-border": "transparent" } as React.CSSProperties}
+  className="border-none">
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupContent>
