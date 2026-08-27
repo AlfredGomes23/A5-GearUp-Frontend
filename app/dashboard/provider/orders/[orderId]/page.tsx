@@ -4,6 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { getProviderOrderById } from "../../_actions/getProviderOrderById";
 import { statusVariant } from "../../../_components/types";
 import { StatusUpdateButton } from "./StatusUpdateButton";
+import ReviewsList from "@/app/gear/_components/ReviewsList";
 
 const ProviderOrderDetailPage = async ({ params }: { params: Promise<{ orderId: string }> }) => {
   const { orderId } = await params;
@@ -61,6 +62,14 @@ const ProviderOrderDetailPage = async ({ params }: { params: Promise<{ orderId: 
           </div>
         </CardContent>
       </Card>
+
+      {order.gear?.id && (
+        <Card>
+          <CardContent className="p-6">
+            <ReviewsList gearId={order.gear.id} />
+          </CardContent>
+        </Card>
+      )}
     </div>
   );
 };

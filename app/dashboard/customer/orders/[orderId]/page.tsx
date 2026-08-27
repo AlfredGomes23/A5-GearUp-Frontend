@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getOrderById } from "../../_actions/getOrderById";
 import { PayPageParams, statusVariant } from "../../../_components/types";
 import CancelButton from "./CancelButton";
+import LeaveReviewForm from "@/app/gear/_components/LeaveReviewForm";
 
 const CustomerOrderDetailPage = async ({ params }: { params: PayPageParams }) => {
   const { orderId } = await params;
@@ -84,6 +85,17 @@ const CustomerOrderDetailPage = async ({ params }: { params: PayPageParams }) =>
           </div>
         </CardContent>
       </Card>
+
+      {order.status === "RETURNED" && order.gear?.id && (
+        <Card>
+          <CardHeader>
+            <CardTitle>Leave a Review</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <LeaveReviewForm gearId={order.gear.id} />
+          </CardContent>
+        </Card>
+      )}
 
       {order.gear?.provider && (
         <Card>

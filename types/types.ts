@@ -150,3 +150,17 @@ export type IPayment = {
         };
     };
 };
+
+export type IReview = {
+    id: string;
+    rating: number;
+    comment: string;
+    customerId: string;
+    createdAt: string;
+    updatedAt: string;
+    gear?: {
+        id: string;
+        title: string;
+        category?: ICategory;
+    };
+};

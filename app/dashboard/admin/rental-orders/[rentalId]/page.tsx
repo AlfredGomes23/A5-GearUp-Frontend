@@ -3,6 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getRentalById } from "../../_actions/getRentalById";
 import { statusVariant } from "../../../_components/types";
+import ReviewsList from "@/app/gear/_components/ReviewsList";
 
 const AdminRentalDetailPage = async ({ params }: { params: Promise<{ rentalId: string }> }) => {
   const { rentalId } = await params;
@@ -77,6 +78,14 @@ const AdminRentalDetailPage = async ({ params }: { params: Promise<{ rentalId: s
           </Card>
         </CardContent>
       </Card>
+
+      {rental.gear?.id && (
+        <Card>
+          <CardContent className="p-6">
+            <ReviewsList gearId={rental.gear.id} />
+          </CardContent>
+        </Card>
+      )}
     </div>
   );
 };

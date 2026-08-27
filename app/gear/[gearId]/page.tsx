@@ -7,6 +7,7 @@ import { getGearById } from "@/app/gear/_actions/getGearById";
 import { getUser } from "@/services/getUser";
 import { UserRole } from "@/types/enums";
 import RentDatePicker from "../_components/RentDatePicker";
+import ReviewsList from "../_components/ReviewsList";
 
 type GearDetailParams = Promise<{ gearId: string }>;
 
@@ -110,10 +111,13 @@ const GearDetailPage = async ({ params }: { params: GearDetailParams }) => {
                   gear.isAvailable ? "text-green-600" : "text-destructive"
                 }`}
               >
-                {gear.isAvailable ? "In Stock" : "Unavailable"}
+                  {gear.isAvailable ? "In Stock" : "Unavailable"}
               </span>
             </div>
           </div>
+
+          {/* Reviews */}
+          <ReviewsList gearId={gearId} />
         </div>
 
         {/* Right: Sidebar - Provider + Rent */}
