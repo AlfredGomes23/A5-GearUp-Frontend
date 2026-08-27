@@ -39,8 +39,8 @@ const RentDatePicker = ({ gearId }: { gearId: string }) => {
     const result = await createRental(gearId, startDate, endDate);
 
     if (result.success) {
-      toast.success("Rental order placed! Redirecting to payment...");
-      router.push(`/dashboard/customer/orders/${result.data.id}/pay`);
+      toast.success("Rental order placed! Waiting for provider confirmation.");
+      router.push(`/dashboard/customer/orders/${result.data.id}`);
     } else {
       toast.error(result.message || "Failed to create rental order");
     }

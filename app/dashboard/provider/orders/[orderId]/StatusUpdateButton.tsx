@@ -7,7 +7,6 @@ import { updateRentalStatus } from "../../_actions/updateRentalStatus";
 
 const statusTransitions: Record<string, { next: string; label: string }> = {
   PLACED: { next: "CONFIRMED", label: "Confirm Order" },
-  CONFIRMED: { next: "PAID", label: "Mark as Paid" },
   PAID: { next: "PICKED_UP", label: "Mark as Picked Up" },
   PICKED_UP: { next: "RETURNED", label: "Mark as Returned" },
 };

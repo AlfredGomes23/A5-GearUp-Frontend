@@ -14,7 +14,7 @@ type PayButtonProps = {
 const PayButton = ({ orderId, status }: PayButtonProps) => {
   const [loading, setLoading] = useState(false);
 
-  if (status !== "PLACED") {
+  if (status !== "CONFIRMED") {
     return null;
   }
 

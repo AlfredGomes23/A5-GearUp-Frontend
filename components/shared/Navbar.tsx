@@ -4,7 +4,6 @@ import logo from "../../app/favicon.ico";
 import { CircleUser, LogOut } from "lucide-react";
 import Link from "next/link";
 import { Button } from "../ui/button";
-import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import Image from "next/image";
 import { NavbarProps } from "@/types/types";
@@ -12,13 +11,11 @@ import { navItems } from "@/lib/navigation";
 import logout from "@/app/auth/_actions/logoutAction";
 
 const Navbar = ({ user }: NavbarProps) => {
-  const router = useRouter();
-
   const handleUserMenuAction = async (action: string) => {
     if (action === "logout") {
       await logout();
       toast.warning("User Logged Out Successfully!");
-      router.push("/auth/login");
+      window.location.href = "/auth/login";
     }
   };
 

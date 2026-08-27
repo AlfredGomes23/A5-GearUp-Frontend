@@ -1,14 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { XCircle, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 
 const PaymentCancelPage = () => {
-  const router = useRouter();
   const [countdown, setCountdown] = useState(3);
 
   useEffect(() => {
@@ -19,7 +17,7 @@ const PaymentCancelPage = () => {
         setCountdown((prev) => {
           if (prev <= 1) {
             clearInterval(timer);
-            router.push(returnUrl);
+            window.location.href = returnUrl;
             return 0;
           }
           return prev - 1;
@@ -27,7 +25,7 @@ const PaymentCancelPage = () => {
       }, 1000);
       return () => clearInterval(timer);
     }
-  }, [router]);
+  }, []);
 
   return (
     <div className="flex-1 flex items-center justify-center p-6">
