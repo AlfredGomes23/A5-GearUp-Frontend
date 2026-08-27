@@ -136,5 +136,17 @@ export type IPayment = {
         status: string;
         customerId: string;
         gearId: string;
+        customer?: {
+            id: string;
+            email: string;
+        };
+        gear?: {
+            id: string;
+            title: string;
+            provider?: {
+                id: string;
+                email: string;
+            };
+        };
     };
 };
