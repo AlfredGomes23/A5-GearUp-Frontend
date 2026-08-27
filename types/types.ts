@@ -74,7 +74,7 @@ export type IListRes<T> = {
 export type ISingleRes<T> = {
     success: boolean;
     message: string;
-    data: T;
+    data: T | null;
 };
 
 export type IRental = {
@@ -93,6 +93,25 @@ export type IRental = {
             email: string;
             phone?: string | null;
         };
+    };
+    createdAt: string;
+};
+
+export type IProviderRental = {
+    id: string;
+    startDate: string;
+    endDate: string;
+    totalPrice: number;
+    status: string;
+    customer: {
+        id: string;
+        email: string;
+        role: string;
+    };
+    gear: {
+        id: string;
+        title: string;
+        category?: ICategory;
     };
     createdAt: string;
 };
