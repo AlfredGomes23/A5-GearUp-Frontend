@@ -112,6 +112,11 @@ export type IProviderRental = {
         id: string;
         title: string;
         category?: ICategory;
+        provider?: {
+            id: string;
+            email: string;
+            phone?: string | null;
+        };
     };
     createdAt: string;
 };
