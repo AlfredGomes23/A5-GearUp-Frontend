@@ -5,14 +5,15 @@ import Link from "next/link";
 import { XCircle, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { getPaymentReturnUrl, clearPaymentReturnUrl } from "@/lib/paymentStorage";
 
 const PaymentCancelPage = () => {
   const [countdown, setCountdown] = useState(3);
 
   useEffect(() => {
-    const returnUrl = sessionStorage.getItem("successPaymentReturnUrl");
+    const returnUrl = getPaymentReturnUrl();
     if (returnUrl) {
-      sessionStorage.removeItem("successPaymentReturnUrl");
+      clearPaymentReturnUrl();
       const timer = setInterval(() => {
         setCountdown((prev) => {
           if (prev <= 1) {
