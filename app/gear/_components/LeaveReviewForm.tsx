@@ -6,26 +6,44 @@ import { Star } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { createReview } from "@/app/gear/_actions/reviewActions";
+import { IReview } from "@/types/types";
+import {
+  createReview,
+  updateReview,
+} from "@/app/gear/_actions/reviewActions";
 
-const LeaveReviewForm = ({ gearId }: { gearId: string }) => {
+type Props = {
+  gearId: string;
+  existingReview?: IReview | null;
+};
+
+const LeaveReviewForm = ({ gearId, existingReview }: Props) => {
   const router = useRouter();
   const [isPending, setIsPending] = useState(false);
-  const [rating, setRating] = useState(5);
+  const [rating, setRating] = useState(existingReview?.rating ?? 5);
   const [hoverRating, setHoverRating] = useState(0);
-  const [comment, setComment] = useState("");
+  const [comment, setComment] = useState(existingReview?.comment ?? "");
+
+  const isUpdate = Boolean(existingReview);
+  const isDirty =
+    !existingReview ||
+    rating !== existingReview.rating ||
+    comment !== existingReview.comment;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsPending(true);
 
-    const result = await createReview({ gearId, rating, comment });
+    const result = isUpdate
+      ? await updateReview({ id: existingReview.id, rating, comment })
+      : await createReview({ gearId, rating, comment });
 
     setIsPending(false);
 
     if (result.success) {
-      toast.success("Review submitted successfully");
-      setComment("");
+      toast.success(
+        isUpdate ? "Review updated successfully" : "Review submitted successfully"
+      );
       router.refresh();
     } else {
       toast.error(result.message || "Failed to submit review");
@@ -79,8 +97,12 @@ const LeaveReviewForm = ({ gearId }: { gearId: string }) => {
       </div>
 
       <div>
-        <Button type="submit" disabled={isPending}>
-          {isPending ? "Submitting..." : "Submit Review"}
+        <Button type="submit" disabled={isPending || !isDirty}>
+          {isPending
+            ? "Saving..."
+            : isUpdate
+              ? "Update Review"
+              : "Add Review"}
         </Button>
       </div>
     </form>

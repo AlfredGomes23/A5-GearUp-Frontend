@@ -1,10 +1,13 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, Calendar, Dumbbell, DollarSign, User } from "lucide-react";
+import { ArrowLeft, Calendar, Dumbbell, DollarSign, MessageSquareQuote, User } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getOrderById } from "../../../_actions/getOrderById";
+import { getMyReviewByGear } from "@/app/gear/_actions/reviewActions";
 import PayButton from "./PayButton";
+import CancelButton from "./CancelButton";
+import LeaveReviewForm from "@/app/gear/_components/LeaveReviewForm";
 import {
   PayPageParams,
   statusVariant,
@@ -15,6 +18,11 @@ const OrderPayPage = async ({ params }: { params: PayPageParams }) => {
   const { data: order, success } = await getOrderById(orderId);
 
   if (!success || !order) notFound();
+
+  const myReview =
+    order.status === "RETURNED" && order.gear?.id
+      ? await getMyReviewByGear(order.gear.id)
+      : { success: false, data: null };
 
   return (
     <div className="flex flex-col gap-6">
@@ -29,13 +37,7 @@ const OrderPayPage = async ({ params }: { params: PayPageParams }) => {
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">Rental Details & Payment</h1>
         <Badge
-          variant={
-            statusVariant(order.status) as
-              | "default"
-              | "secondary"
-              | "destructive"
-              | "outline"
-          }
+          className={statusVariant(order.status)}
         >
           {order.status}
         </Badge>
@@ -114,6 +116,9 @@ const OrderPayPage = async ({ params }: { params: PayPageParams }) => {
                 </span>
               </div>
               <PayButton orderId={order.id} status={order.status} />
+              {order.status === "PLACED" && (
+                <CancelButton rentalId={order.id} />
+              )}
             </CardContent>
           </Card>
 
@@ -146,6 +151,23 @@ const OrderPayPage = async ({ params }: { params: PayPageParams }) => {
           )}
         </div>
       </div>
+
+      {order.status === "RETURNED" && order.gear?.id && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <MessageSquareQuote className="size-5" />
+              Review Section
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <LeaveReviewForm
+              gearId={order.gear.id}
+              existingReview={myReview.data}
+            />
+          </CardContent>
+        </Card>
+      )}
     </div>
   );
 };

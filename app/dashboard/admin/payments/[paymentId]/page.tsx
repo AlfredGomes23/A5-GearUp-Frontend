@@ -36,7 +36,7 @@ const AdminPaymentDetailPage = async ({ params }: { params: Promise<{ paymentId:
           <CardTitle className="text-lg">
             {gear?.title ?? `Gear ${gearId ?? "Unknown"}`}
           </CardTitle>
-          <Badge variant={statusVariant(payment.status) as "default" | "secondary" | "destructive" | "outline"}>
+          <Badge className={statusVariant(payment.status)}>
             {payment.status}
           </Badge>
         </CardHeader>

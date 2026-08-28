@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getProviderGearById } from "../../_actions/getProviderGearById";
 import GearForm from "../../_components/GearForm";
+import DeleteGearButton from "../../_components/DeleteGearButton";
 
 type GearDetailParams = Promise<{ gearId: string }>;
 
@@ -33,6 +34,7 @@ const ProviderGearDetailPage = async ({
           <h1 className="text-2xl font-bold">Edit Gear</h1>
           <p className="text-muted-foreground">{gear.title}</p>
         </div>
+        <DeleteGearButton gear={gear} />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

@@ -1,24 +1,14 @@
-import { MessageSquareQuote, Star } from "lucide-react";
+import { MessageSquareQuote } from "lucide-react";
 import { getReviewsByGear } from "@/app/gear/_actions/reviewActions";
+import ReviewCard from "./ReviewCard";
 
-const Stars = ({ rating }: { rating: number }) => {
-  return (
-    <div className="flex items-center gap-0.5">
-      {Array.from({ length: 5 }).map((_, i) => (
-        <Star
-          key={i}
-          className={`size-4 ${
-            i < rating
-              ? "fill-yellow-400 text-yellow-400"
-              : "fill-muted text-muted"
-          }`}
-        />
-      ))}
-    </div>
-  );
-};
-
-const ReviewsList = async ({ gearId }: { gearId: string }) => {
+const ReviewsList = async ({
+  gearId,
+  currentUserId,
+}: {
+  gearId: string;
+  currentUserId?: string;
+}) => {
   const { data: reviews } = await getReviewsByGear(gearId);
 
   return (
@@ -35,18 +25,11 @@ const ReviewsList = async ({ gearId }: { gearId: string }) => {
       ) : (
         <div className="flex flex-col gap-3">
           {reviews.map((review) => (
-            <div
+            <ReviewCard
               key={review.id}
-              className="flex flex-col gap-2 p-4 rounded-lg border"
-            >
-              <div className="flex items-center justify-between">
-                <Stars rating={review.rating} />
-                <span className="text-xs text-muted-foreground">
-                  {new Date(review.createdAt).toLocaleDateString()}
-                </span>
-              </div>
-              <p className="text-sm leading-relaxed">{review.comment}</p>
-            </div>
+              review={review}
+              canEdit={Boolean(currentUserId && review.customerId === currentUserId)}
+            />
           ))}
         </div>
       )}

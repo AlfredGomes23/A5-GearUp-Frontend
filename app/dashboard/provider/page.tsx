@@ -10,51 +10,33 @@ import { statusVariant } from "../_components/types";
 
 const ProviderDashboard = async () => {
   const { data: gears } = await getMyGear({ limit: "100" });
-  const { data: orders } = await getProviderOrders({ limit: "5" });
-  const { data: payments } = await getMyPayments({ limit: "5" });
+  const { data: orders } = await getProviderOrders({ limit: "100" });
+  const { data: payments } = await getMyPayments({ limit: "100" });
 
   const available = gears.filter((g) => g.isAvailable).length;
   const unavailable = gears.filter((g) => !g.isAvailable).length;
 
   return (
     <div className="flex flex-col gap-6">
-      <div>
-        <h1 className="text-2xl font-bold">My Dashboard</h1>
-        <p className="text-muted-foreground">Welcome back! Here&apos;s your gear &amp; orders overview.</p>
-      </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">Gear</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex items-center gap-4">
-              <div className="flex flex-col">
-                <span className="text-xs text-muted-foreground">Total</span>
-                <span className="text-xl font-bold">{gears.length}</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-xs text-muted-foreground">Available</span>
-                <span className="text-xl font-bold text-green-600 dark:text-green-400">{available}</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-xs text-muted-foreground">Unavailable</span>
-                <span className="text-xl font-bold text-red-600 dark:text-red-400">{unavailable}</span>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">Rental Orders</CardTitle>
+            <CardTitle className="text-sm font-medium text-muted-foreground">
+              Rental Orders
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="flex items-center gap-4">
               <div className="flex flex-col">
                 <span className="text-xs text-muted-foreground">Total</span>
                 <span className="text-xl font-bold">{orders.length}</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="text-xs text-muted-foreground">Pending</span>
+                <span className="text-xl font-bold text-amber-600 dark:text-amber-400">
+                  {orders.filter((o) => o.status === "PLACED").length}
+                </span>
               </div>
               <div className="flex flex-col">
                 <span className="text-xs text-muted-foreground">Confirmed</span>
@@ -80,7 +62,9 @@ const ProviderDashboard = async () => {
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">Payments</CardTitle>
+            <CardTitle className="text-sm font-medium text-muted-foreground">
+              Payments
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="flex items-center gap-4">
@@ -100,6 +84,36 @@ const ProviderDashboard = async () => {
                 <span className="text-xs text-muted-foreground">Failed</span>
                 <span className="text-xl font-bold text-red-600 dark:text-red-400">
                   {payments.filter((p) => p.status === "FAILED").length}
+                </span>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium text-muted-foreground">
+              Gears
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-center gap-4">
+              <div className="flex flex-col">
+                <span className="text-xs text-muted-foreground">Total</span>
+                <span className="text-xl font-bold">{gears.length}</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="text-xs text-muted-foreground">Available</span>
+                <span className="text-xl font-bold text-green-600 dark:text-green-400">
+                  {available}
+                </span>
+              </div>
+              <div className="flex flex-col">
+                <span className="text-xs text-muted-foreground">
+                  Unavailable
+                </span>
+                <span className="text-xl font-bold text-red-600 dark:text-red-400">
+                  {unavailable}
                 </span>
               </div>
             </div>
@@ -125,19 +139,22 @@ const ProviderDashboard = async () => {
             </div>
           ) : (
             <div className="flex flex-col gap-3">
-              {orders.map((order) => (
+              {orders.slice(0, 5).map((order) => (
                 <Link
                   key={order.id}
                   href={`/dashboard/provider/orders/${order.id}`}
                   className="flex items-center justify-between p-3 rounded-lg border hover:bg-muted/50 transition-colors"
                 >
                   <div className="flex flex-col gap-1">
-                    <span className="font-medium">{order.gear?.title ?? "Unknown Gear"}</span>
+                    <span className="font-medium">
+                      {order.gear?.title ?? "Unknown Gear"}
+                    </span>
                     <span className="text-sm text-muted-foreground">
-                      {order.customer?.email ?? "Unknown"} · {order.startDate} — {order.endDate}
+                      {order.customer?.email ?? "Unknown"} · {order.startDate} —{" "}
+                      {order.endDate}
                     </span>
                   </div>
-                  <Badge variant={statusVariant(order.status) as "default" | "secondary" | "destructive" | "outline"}>
+                  <Badge className={statusVariant(order.status)}>
                     {order.status}
                   </Badge>
                 </Link>
@@ -161,7 +178,9 @@ const ProviderDashboard = async () => {
             <div className="flex flex-col items-center gap-2 py-12 text-muted-foreground">
               <Dumbbell className="size-10" />
               <p className="font-medium">No gear listed</p>
-              <p className="text-sm">Create your first gear listing to get started.</p>
+              <p className="text-sm">
+                Create your first gear listing to get started.
+              </p>
             </div>
           ) : (
             <div className="flex flex-col gap-3">
@@ -178,8 +197,12 @@ const ProviderDashboard = async () => {
                     </span>
                   </div>
                   <div className="flex items-center gap-3">
-                    <span className="font-medium text-primary">${gear.pricePerDay}/day</span>
-                    <Badge variant={gear.isAvailable ? "default" : "destructive"}>
+                    <span className="font-medium text-primary">
+                      ${gear.pricePerDay}/day
+                    </span>
+                    <Badge
+                      variant={gear.isAvailable ? "default" : "destructive"}
+                    >
                       {gear.isAvailable ? "Available" : "Unavailable"}
                     </Badge>
                   </div>
@@ -204,17 +227,21 @@ const ProviderDashboard = async () => {
             <div className="flex flex-col items-center gap-2 py-12 text-muted-foreground">
               <Banknote className="size-10" />
               <p className="font-medium">No payments yet</p>
-              <p className="text-sm">Payments for your gear will appear here.</p>
+              <p className="text-sm">
+                Payments for your gear will appear here.
+              </p>
             </div>
           ) : (
             <div className="flex flex-col gap-3">
-              {payments.map((payment) => (
+              {payments.slice(0, 5).map((payment) => (
                 <div
                   key={payment.id}
                   className="flex items-center justify-between p-3 rounded-lg border"
                 >
                   <div className="flex flex-col gap-1">
-                    <span className="font-medium">Order #{payment.rentalOrder.id.slice(0, 8)}</span>
+                    <span className="font-medium">
+                      Order #{payment.rentalOrder.id.slice(0, 8)}
+                    </span>
                     <span className="text-sm text-muted-foreground">
                       {payment.paidAt
                         ? new Date(payment.paidAt).toLocaleDateString()
@@ -222,8 +249,10 @@ const ProviderDashboard = async () => {
                     </span>
                   </div>
                   <div className="flex items-center gap-3">
-                    <span className="font-medium text-primary">${payment.amount}</span>
-                    <Badge variant={statusVariant(payment.status) as "default" | "secondary" | "destructive" | "outline"}>
+                    <span className="font-medium text-primary">
+                      ${payment.amount}
+                    </span>
+                    <Badge className={statusVariant(payment.status)}>
                       {payment.status}
                     </Badge>
                   </div>

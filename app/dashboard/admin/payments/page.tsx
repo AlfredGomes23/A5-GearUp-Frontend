@@ -56,7 +56,7 @@ const AdminPaymentsPage = async ({ searchParams }: { searchParams: SearchParams 
               </div>
               <div className="flex items-center gap-3">
                 <span className="font-medium text-primary">${payment.amount}</span>
-                <Badge variant={statusVariant(payment.status) as "default" | "secondary" | "destructive" | "outline"}>
+                <Badge className={statusVariant(payment.status)}>
                   {payment.status}
                 </Badge>
               </div>

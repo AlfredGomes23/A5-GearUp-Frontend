@@ -29,7 +29,7 @@ const PaymentCard = ({ payment }: { payment: IPayment }) => {
             <div className="flex items-center gap-2">
               <span className="font-medium">Payment# {payment.rentalOrder.id}</span>
               <Badge
-                variant={statusVariant(payment.status) as "default" | "secondary" | "destructive" | "outline"}
+                className={statusVariant(payment.status)}
               >
                 {payment.status}
               </Badge>

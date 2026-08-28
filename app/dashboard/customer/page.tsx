@@ -103,7 +103,7 @@ const CustomerDashboard = async () => {
                       {order.startDate} — {order.endDate}
                     </span>
                   </div>
-                  <Badge variant={statusVariant(order.status) as "default" | "secondary" | "destructive" | "outline"}>
+                  <Badge className={statusVariant(order.status)}>
                     {order.status}
                   </Badge>
                 </Link>
@@ -146,7 +146,7 @@ const CustomerDashboard = async () => {
                   </div>
                   <div className="flex items-center gap-3">
                     <span className="font-medium text-primary">${payment.amount}</span>
-                    <Badge variant={statusVariant(payment.status) as "default" | "secondary" | "destructive" | "outline"}>
+                    <Badge className={statusVariant(payment.status)}>
                       {payment.status}
                     </Badge>
                   </div>

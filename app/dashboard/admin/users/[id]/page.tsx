@@ -47,13 +47,13 @@ const UserDetailPage = async ({ params }: { params: Promise<{ id: string }> }) =
           <CardContent className="flex flex-col gap-2 text-sm">
             <div className="flex items-center gap-2">
               <span className="text-muted-foreground">Role:</span>
-              <Badge variant={roleVariant(user.role) as "default" | "secondary" | "destructive" | "outline"}>
+              <Badge className={roleVariant(user.role)}>
                 {user.role}
               </Badge>
             </div>
             <div className="flex items-center gap-2">
               <span className="text-muted-foreground">Status:</span>
-              <Badge variant={statusVariantForUser(user.status) as "default" | "secondary" | "destructive" | "outline"}>
+              <Badge className={statusVariantForUser(user.status)}>
                 {user.status}
               </Badge>
             </div>
@@ -89,7 +89,7 @@ const UserDetailPage = async ({ params }: { params: Promise<{ id: string }> }) =
                     </div>
                     <div className="flex items-center gap-3">
                       <span className="font-medium text-primary">${rental.totalPrice}</span>
-                      <Badge variant={statusVariant(rental.status) as "default" | "secondary" | "destructive" | "outline"}>
+                      <Badge className={statusVariant(rental.status)}>
                         {rental.status}
                       </Badge>
                     </div>

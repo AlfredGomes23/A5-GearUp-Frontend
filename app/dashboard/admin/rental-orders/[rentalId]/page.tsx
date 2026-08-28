@@ -3,11 +3,15 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getRentalById } from "../../_actions/getRentalById";
 import { statusVariant } from "../../../_components/types";
+import { getUser } from "@/services/getUser";
 import ReviewsList from "@/app/gear/_components/ReviewsList";
 
 const AdminRentalDetailPage = async ({ params }: { params: Promise<{ rentalId: string }> }) => {
   const { rentalId } = await params;
-  const { success, data: rental } = await getRentalById(rentalId);
+  const [{ success, data: rental }, userRes] = await Promise.all([
+    getRentalById(rentalId),
+    getUser(),
+  ]);
 
   if (!success || !rental) notFound();
 
@@ -21,7 +25,7 @@ const AdminRentalDetailPage = async ({ params }: { params: Promise<{ rentalId: s
       <Card>
         <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle className="text-lg">{rental.gear?.title ?? "Unknown Gear"}</CardTitle>
-          <Badge variant={statusVariant(rental.status) as "default" | "secondary" | "destructive" | "outline"}>
+          <Badge className={statusVariant(rental.status)}>
             {rental.status}
           </Badge>
         </CardHeader>
@@ -82,7 +86,10 @@ const AdminRentalDetailPage = async ({ params }: { params: Promise<{ rentalId: s
       {rental.gear?.id && (
         <Card>
           <CardContent className="p-6">
-            <ReviewsList gearId={rental.gear.id} />
+            <ReviewsList
+              gearId={rental.gear.id}
+              currentUserId={userRes?.success ? userRes.data.id : undefined}
+            />
           </CardContent>
         </Card>
       )}

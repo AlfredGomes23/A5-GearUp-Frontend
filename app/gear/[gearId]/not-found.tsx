@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { navItems } from "@/lib/navigation";
 
 const GearDetailNotFound = () => {
-  console.log(navItems);
+  // console.log(navItems);
   return (
     <div className="mx-auto px-4 sm:px-6 lg:px-8 py-24 flex flex-col items-center gap-4 text-center">
       <PackageX className="size-16 text-muted-foreground" />

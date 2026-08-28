@@ -43,7 +43,7 @@ export const roleNavItems: Record< string, { label: string; href: string; icon: 
   [UserRole.ADMIN]: [
     { label: "Users", href: "/dashboard/admin/users", icon: Users },
     { label: "Categories", href: "/dashboard/admin/categories", icon: Tag },
-    // { label: "All Gear", href: "/dashboard/admin/gear", icon: Dumbbell },
+    { label: "All Gear", href: "/dashboard/admin/gear", icon: Dumbbell },
     { label: "Rentals", href: "/dashboard/admin/rental-orders", icon: NotebookPenIcon },
     { label: "Payments", href: "/dashboard/admin/payments", icon: BanknoteArrowUpIcon },
   ],

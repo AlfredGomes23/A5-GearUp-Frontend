@@ -53,7 +53,7 @@ const OrdersPage = async ({ searchParams }: { searchParams: SearchParams }) => {
                 </span>
                 <span className="text-sm font-medium">${order.totalPrice}</span>
               </div>
-              <Badge variant={statusVariant(order.status) as "default" | "secondary" | "destructive" | "outline"}>
+              <Badge className={statusVariant(order.status)}>
                 {order.status}
               </Badge>
             </Link>

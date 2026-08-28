@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import { cancelRental } from "../../_actions/cancelRental";
+import { cancelRental } from "@/app/dashboard/customer/_actions/cancelRental";
 
 const CancelButton = ({ rentalId }: { rentalId: string }) => {
   const router = useRouter();

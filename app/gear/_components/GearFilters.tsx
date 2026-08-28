@@ -25,9 +25,13 @@ const GearFilters = ({ categories, isLoading }: { categories: ICategory[]; isLoa
   const searchParams = useSearchParams();
   const [isPending, startTransition] = useTransition();
   const currentSearch = searchParams.get("searchTerm") ?? "";
+  const currentMinPrice = searchParams.get("minPrice") ?? "";
+  const currentMaxPrice = searchParams.get("maxPrice") ?? "";
   const [search, setSearch] = useState(currentSearch);
+  const [minPrice, setMinPrice] = useState(currentMinPrice);
+  const [maxPrice, setMaxPrice] = useState(currentMaxPrice);
   const debounceRef = useRef<NodeJS.Timeout>(null);
-
+  const priceDebounceRef = useRef<NodeJS.Timeout>(null);
   const pushParams = (updates: FilterUpdates) => {
 
     const params = new URLSearchParams(searchParams.toString());
@@ -51,24 +55,37 @@ const GearFilters = ({ categories, isLoading }: { categories: ICategory[]; isLoa
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search]);
 
+  // debounced price filter
+  useEffect(() => {
+    if (minPrice === currentMinPrice && maxPrice === currentMaxPrice) return;
+    priceDebounceRef.current = setTimeout(() => {
+      pushParams({
+        minPrice: minPrice || null,
+        maxPrice: maxPrice || null,
+      });
+    }, 400);
+    return () => clearTimeout(priceDebounceRef.current!);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [minPrice, maxPrice]);
+
   const categoryId = searchParams.get("categoryId");
   const isAvailable = searchParams.get("isAvailable") === "true";
   const sortBy = searchParams.get("sortBy") ?? "createdAt";
   const sortOrder = searchParams.get("sortOrder") ?? "desc";
   const sortValue = `${sortBy}:${sortOrder}`;
 
-  const hasFilters = Boolean(search || categoryId || isAvailable);
+  const hasFilters = Boolean(search || categoryId || isAvailable || minPrice || maxPrice);
 
   return (
     <>
       {isPending || isLoading ? (
         // loading spinner
         <span className="text-xl text-muted-foreground flex justify-center items-center">
-          L<LoaderIcon
+          <LoaderIcon
             role="status"
             aria-label="Loading"
             className={cn("size-8 animate-spin")}
-          />{" "}ading...
+          /> Loading...
         </span>
       ) : (
         // content
@@ -87,10 +104,14 @@ const GearFilters = ({ categories, isLoading }: { categories: ICategory[]; isLoa
                     searchTerm: null,
                     categoryId: null,
                     isAvailable: null,
+                    minPrice: null,
+                    maxPrice: null,
                     sortBy: null,
                     sortOrder: null
                   });
                   setSearch("");
+                  setMinPrice("");
+                  setMaxPrice("");
                  }
                 }
               >
@@ -140,6 +161,34 @@ const GearFilters = ({ categories, isLoading }: { categories: ICategory[]; isLoa
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search gear, brand..."
                 className="pl-9 rounded-xl border-dashed border-primary outline outline-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-0 focus-visible:border-primary"
+              />
+            </div>
+          </div>
+
+          {/* price range */}
+          <div className="flex items-center gap-3 flex-wrap">
+            <span className="text-sm font-medium">Price / day:</span>
+            <div className="relative">
+              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">$</span>
+              <Input
+                type="number"
+                min={0}
+                value={minPrice}
+                onChange={(e) => setMinPrice(e.target.value)}
+                placeholder="Min"
+                className="pl-7 w-28 rounded-xl border-dashed border-primary outline outline-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-0 focus-visible:border-primary"
+              />
+            </div>
+            <span className="text-muted-foreground">-</span>
+            <div className="relative">
+              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">$</span>
+              <Input
+                type="number"
+                min={0}
+                value={maxPrice}
+                onChange={(e) => setMaxPrice(e.target.value)}
+                placeholder="Max"
+                className="pl-7 w-28 rounded-xl border-dashed border-primary outline outline-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-0 focus-visible:border-primary"
               />
             </div>
           </div>

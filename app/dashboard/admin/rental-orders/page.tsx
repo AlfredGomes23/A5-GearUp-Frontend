@@ -59,7 +59,7 @@ const AdminRentalsPage = async ({ searchParams }: { searchParams: SearchParams }
                     Provider: {rental.gear.provider.email}
                   </span>
                 )}
-                <Badge variant={statusVariant(rental.status) as "default" | "secondary" | "destructive" | "outline"}>
+                <Badge className={statusVariant(rental.status)}>
                   {rental.status}
                 </Badge>
               </div>

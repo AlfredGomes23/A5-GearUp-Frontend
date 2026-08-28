@@ -6,12 +6,14 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getUsers } from "./_actions/getUsers";
 import { getAdminRentals } from "./_actions/getAdminRentals";
 import { getAdminPayments } from "./_actions/getAdminPayments";
+import { getAdminGear } from "./_actions/getAdminGear";
 import { roleVariant, statusVariant, statusVariantForUser } from "../_components/types";
 
 const AdminDashboard = async () => {
   const { data: users } = await getUsers({ limit: "100" });
-  const { data: rentals } = await getAdminRentals({ limit: "5" });
-  const { data: payments } = await getAdminPayments({ limit: "5" });
+  const { data: rentals } = await getAdminRentals({ limit: "100" });
+  const { data: payments } = await getAdminPayments({ limit: "100" });
+  const { data: gears } = await getAdminGear({ limit: "100" });
 
   const customers = users.filter((u) => u.role === "CUSTOMER").length;
   const providers = users.filter((u) => u.role === "PROVIDER").length;
@@ -24,6 +26,9 @@ const AdminDashboard = async () => {
   const completedPayments = payments.filter((p) => p.status === "COMPLETED").length;
   const pendingPayments = payments.filter((p) => p.status === "PENDING").length;
 
+  const activeGears = gears.filter((g) => g.isAvailable).length;
+  const unavailableGears = gears.filter((g) => !g.isAvailable).length;
+
   return (
     <div className="flex flex-col gap-6">
       <div>
@@ -31,7 +36,7 @@ const AdminDashboard = async () => {
         <p className="text-muted-foreground">Platform overview of users, rentals &amp; payments.</p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground">Users</CardTitle>
@@ -97,6 +102,28 @@ const AdminDashboard = async () => {
             </div>
           </CardContent>
         </Card>
+
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium text-muted-foreground">Gears</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-center gap-4">
+              <div className="flex flex-col">
+                <span className="text-xs text-muted-foreground">Total</span>
+                <span className="text-xl font-bold">{gears.length}</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="text-xs text-muted-foreground">Active</span>
+                <span className="text-xl font-bold text-green-600 dark:text-green-400">{activeGears}</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="text-xs text-muted-foreground">Unavailable</span>
+                <span className="text-xl font-bold text-red-600 dark:text-red-400">{unavailableGears}</span>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -130,10 +157,10 @@ const AdminDashboard = async () => {
                       </span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <Badge variant={roleVariant(user.role) as "default" | "secondary" | "destructive" | "outline"}>
+                      <Badge className={roleVariant(user.role)}>
                         {user.role}
                       </Badge>
-                      <Badge variant={statusVariantForUser(user.status) as "default" | "secondary" | "destructive" | "outline"}>
+                      <Badge className={statusVariantForUser(user.status)}>
                         {user.status}
                       </Badge>
                     </div>
@@ -161,7 +188,7 @@ const AdminDashboard = async () => {
               </div>
             ) : (
               <div className="flex flex-col gap-3">
-                {rentals.map((rental) => (
+                {rentals.slice(0, 5).map((rental) => (
                   <Link
                     key={rental.id}
                     href={`/dashboard/admin/rental-orders/${rental.id}`}
@@ -173,7 +200,7 @@ const AdminDashboard = async () => {
                         {rental.customer?.email ?? "Unknown"} · {rental.startDate} — {rental.endDate}
                       </span>
                     </div>
-                    <Badge variant={statusVariant(rental.status) as "default" | "secondary" | "destructive" | "outline"}>
+                    <Badge className={statusVariant(rental.status)}>
                       {rental.status}
                     </Badge>
                   </Link>
@@ -201,7 +228,7 @@ const AdminDashboard = async () => {
             </div>
           ) : (
             <div className="flex flex-col gap-3">
-              {payments.map((payment) => (
+              {payments.slice(0, 5).map((payment) => (
                 <Link
                   key={payment.id}
                   href={`/dashboard/admin/payments/${payment.id}`}
@@ -217,7 +244,7 @@ const AdminDashboard = async () => {
                   </div>
                   <div className="flex items-center gap-3">
                     <span className="font-medium text-primary">${payment.amount}</span>
-                    <Badge variant={statusVariant(payment.status) as "default" | "secondary" | "destructive" | "outline"}>
+                    <Badge className={statusVariant(payment.status)}>
                       {payment.status}
                     </Badge>
                   </div>

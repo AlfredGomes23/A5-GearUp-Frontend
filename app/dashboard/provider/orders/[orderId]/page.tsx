@@ -4,11 +4,15 @@ import { Card, CardContent } from "@/components/ui/card";
 import { getProviderOrderById } from "../../_actions/getProviderOrderById";
 import { statusVariant } from "../../../_components/types";
 import { StatusUpdateButton } from "./StatusUpdateButton";
+import { getUser } from "@/services/getUser";
 import ReviewsList from "@/app/gear/_components/ReviewsList";
 
 const ProviderOrderDetailPage = async ({ params }: { params: Promise<{ orderId: string }> }) => {
   const { orderId } = await params;
-  const { success, data: order } = await getProviderOrderById(orderId);
+  const [{ success, data: order }, userRes] = await Promise.all([
+    getProviderOrderById(orderId),
+    getUser(),
+  ]);
 
   if (!success || !order) notFound();
 
@@ -23,7 +27,7 @@ const ProviderOrderDetailPage = async ({ params }: { params: Promise<{ orderId: 
         <CardContent className="flex flex-col gap-4 p-6">
           <div className="flex items-center justify-between">
             <span className="text-lg font-medium">{order.gear?.title ?? "Unknown Gear"}</span>
-            <Badge variant={statusVariant(order.status) as "default" | "secondary" | "destructive" | "outline"}>
+            <Badge className={statusVariant(order.status)}>
               {order.status}
             </Badge>
           </div>
@@ -66,7 +70,10 @@ const ProviderOrderDetailPage = async ({ params }: { params: Promise<{ orderId: 
       {order.gear?.id && (
         <Card>
           <CardContent className="p-6">
-            <ReviewsList gearId={order.gear.id} />
+            <ReviewsList
+              gearId={order.gear.id}
+              currentUserId={userRes?.success ? userRes.data.id : undefined}
+            />
           </CardContent>
         </Card>
       )}

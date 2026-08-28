@@ -44,7 +44,7 @@ const AdminUsersPage = async ({ searchParams }: { searchParams: SearchParams }) 
               className="flex items-center justify-between p-4 rounded-lg border hover:bg-muted/50 transition-colors"
             >
               <div className="flex items-start gap-3">
-                <Badge variant={roleVariant(user.role) as "default" | "secondary" | "destructive" | "outline"}>
+                <Badge className={roleVariant(user.role)}>
                   {user.role}
                 </Badge>
                 <div className="flex flex-col gap-1">
@@ -59,7 +59,7 @@ const AdminUsersPage = async ({ searchParams }: { searchParams: SearchParams }) 
                 <span className="hidden md:inline text-sm text-muted-foreground">
                   Joined {new Date(user.createdAt).toLocaleDateString()}
                 </span>
-                <Badge variant={statusVariantForUser(user.status) as "default" | "secondary" | "destructive" | "outline"}>
+                <Badge className={statusVariantForUser(user.status)}>
                   {user.status}
                 </Badge>
               </div>

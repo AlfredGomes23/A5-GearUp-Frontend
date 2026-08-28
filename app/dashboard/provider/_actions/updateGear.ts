@@ -7,7 +7,11 @@ type UpdateGearInput = {
   id: string;
   title?: string;
   description?: string;
+  brand?: string;
   isAvailable?: boolean;
+  stock?: number;
+  pricePerDay?: number;
+  categoryId?: string;
 };
 
 export const updateGear = async (data: UpdateGearInput): Promise<ISingleRes<IGear | null>> => {

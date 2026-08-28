@@ -29,6 +29,41 @@ export const getReviewsByGear = async (gearId: string): Promise<IListReviewRes> 
   }
 };
 
+export const getMyReviewByGear = async (gearId: string): Promise<ISingleRes<IReview | null>> => {
+  const accessToken = await getAccessToken();
+
+  if (!accessToken) {
+    return { success: false, message: "User not logged in!", data: null };
+  }
+
+  try {
+    const meRes = await fetch(`${process.env.BACKEND_API_URL}/api/auth/me`, {
+      headers: { Cookie: `accessToken=${accessToken}` },
+      cache: "no-store",
+    });
+    const me = await meRes.json();
+
+    if (!me?.success || !me?.data?.id) {
+      return { success: false, message: "Failed to get current user", data: null };
+    }
+
+    const res = await fetch(
+      `${process.env.BACKEND_API_URL}/api/review?gearId=${gearId}&customerId=${me.data.id}&limit=1`,
+      { cache: "no-store" }
+    );
+
+    const result = await res.json();
+
+    if (!result.success) {
+      return { success: false, message: result.message || "Failed to fetch review", data: null };
+    }
+
+    return { ...result, data: result?.data?.[0] ?? null };
+  } catch {
+    return { success: false, message: "Failed to fetch review", data: null };
+  }
+};
+
 export const getAllReviews = async (limit = 5): Promise<IListReviewRes> => {
   try {
     const res = await fetch(
@@ -81,5 +116,36 @@ export const createReview = async (data: CreateReviewInput): Promise<ISingleRes<
     return { ...result, data: result?.data ?? null };
   } catch {
     return { success: false, message: "Failed to create review", data: null };
+  }
+};
+
+type UpdateReviewInput = {
+  id: string;
+  rating?: number;
+  comment?: string;
+};
+
+export const updateReview = async (data: UpdateReviewInput): Promise<ISingleRes<IReview | null>> => {
+  const accessToken = await getAccessToken();
+
+  if (!accessToken) {
+    return { success: false, message: "User not logged in!", data: null };
+  }
+
+  try {
+    const res = await fetch(`${process.env.BACKEND_API_URL}/api/review`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Cookie: `accessToken=${accessToken}`,
+      },
+      body: JSON.stringify(data),
+      cache: "no-store",
+    });
+
+    const result = await res.json();
+    return { ...result, data: result?.data ?? null };
+  } catch {
+    return { success: false, message: "Failed to update review", data: null };
   }
 };

@@ -117,7 +117,10 @@ const GearDetailPage = async ({ params }: { params: GearDetailParams }) => {
           </div>
 
           {/* Reviews */}
-          <ReviewsList gearId={gearId} />
+          <ReviewsList
+            gearId={gearId}
+            currentUserId={userRes?.success ? userRes.data.id : undefined}
+          />
         </div>
 
         {/* Right: Sidebar - Provider + Rent */}
