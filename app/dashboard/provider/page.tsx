@@ -7,6 +7,7 @@ import { getMyGear } from "./_actions/getMyGear";
 import { getProviderOrders } from "./_actions/getProviderOrders";
 import { getMyPayments } from "../customer/_actions/getMyPayments";
 import { statusVariant } from "../_components/types";
+import { formatDate } from "@/lib/formatDate";
 
 const ProviderDashboard = async () => {
   const { data: gears } = await getMyGear({ limit: "100" });
@@ -150,8 +151,8 @@ const ProviderDashboard = async () => {
                       {order.gear?.title ?? "Unknown Gear"}
                     </span>
                     <span className="text-sm text-muted-foreground">
-                      {order.customer?.email ?? "Unknown"} · {order.startDate} —{" "}
-                      {order.endDate}
+                      {order.customer?.email ?? "Unknown"} · {formatDate(order.startDate)} —{" "}
+                      {formatDate(order.endDate)}
                     </span>
                   </div>
                   <Badge className={statusVariant(order.status)}>

@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { getAdminRentals } from "../_actions/getAdminRentals";
 import { SearchParams, statusVariant } from "../../_components/types";
+import { formatDate } from "@/lib/formatDate";
 
 const AdminRentalsPage = async ({ searchParams }: { searchParams: SearchParams }) => {
   const sp = await searchParams;
@@ -49,7 +50,7 @@ const AdminRentalsPage = async ({ searchParams }: { searchParams: SearchParams }
                   Customer: {rental.customer?.email ?? "Unknown"}
                 </span>
                 <span className="text-sm text-muted-foreground">
-                  {rental.startDate} — {rental.endDate}
+                  {formatDate(rental.startDate)} — {formatDate(rental.endDate)}
                 </span>
                 <span className="text-sm font-medium">${rental.totalPrice}</span>
               </div>

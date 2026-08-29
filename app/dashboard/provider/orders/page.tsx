@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { getProviderOrders } from "../_actions/getProviderOrders";
 import { SearchParams, statusVariant } from "../../_components/types";
+import { formatDate } from "@/lib/formatDate";
 
 const ProviderOrdersPage = async ({ searchParams }: { searchParams: SearchParams }) => {
   const sp = await searchParams;
@@ -50,7 +51,7 @@ const ProviderOrdersPage = async ({ searchParams }: { searchParams: SearchParams
                   Customer: {order.customer?.email ?? "Unknown"}
                 </span>
                 <span className="text-sm text-muted-foreground">
-                  {order.startDate} — {order.endDate}
+                  {formatDate(order.startDate)} — {formatDate(order.endDate)}
                 </span>
                 <span className="text-sm font-medium">${order.totalPrice}</span>
               </div>

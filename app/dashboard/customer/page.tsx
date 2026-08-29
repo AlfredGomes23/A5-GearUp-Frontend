@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getMyOrders } from "./_actions/getMyOrders";
 import { getMyPayments } from "./_actions/getMyPayments";
 import { statusVariant } from "../_components/types";
+import { formatDate } from "@/lib/formatDate";
 
 const CustomerDashboard = async () => {
   const { data: orders } = await getMyOrders({ limit: "5" });
@@ -100,7 +101,7 @@ const CustomerDashboard = async () => {
                   <div className="flex flex-col gap-1">
                     <span className="font-medium">{order.gear?.title ?? "Unknown Gear"}</span>
                     <span className="text-sm text-muted-foreground">
-                      {order.startDate} — {order.endDate}
+                      {formatDate(order.startDate)} — {formatDate(order.endDate)}
                     </span>
                   </div>
                   <Badge className={statusVariant(order.status)}>

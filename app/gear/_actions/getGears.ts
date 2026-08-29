@@ -1,8 +1,11 @@
 import { IListRes, IGear } from "@/types/types";
 
 export const getGears = async (searchParams: Record<string, string | undefined>): Promise<IListRes<IGear>> => {
+    const merged = { ...searchParams };
+    if (!merged.limit) merged.limit = "8";
+
     const query = new URLSearchParams(
-        Object.entries(searchParams).filter((entry): entry is [string, string] => Boolean(entry[1]))
+        Object.entries(merged).filter((entry): entry is [string, string] => Boolean(entry[1]))
     ).toString();
 
     try {

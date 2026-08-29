@@ -166,7 +166,7 @@ const GearFilters = ({ categories, isLoading }: { categories: ICategory[]; isLoa
           </div>
 
           {/* price range */}
-          <div className="flex items-center gap-3 flex-wrap">
+          {/* <div className="flex items-center gap-3 flex-wrap">
             <span className="text-sm font-medium">Price / day:</span>
             <div className="relative">
               <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">$</span>
@@ -191,7 +191,7 @@ const GearFilters = ({ categories, isLoading }: { categories: ICategory[]; isLoa
                 className="pl-7 w-28 rounded-xl border-dashed border-primary outline outline-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-0 focus-visible:border-primary"
               />
             </div>
-          </div>
+          </div> */}
 
           {/* categories */}
           <div className="flex flex-wrap gap-2">

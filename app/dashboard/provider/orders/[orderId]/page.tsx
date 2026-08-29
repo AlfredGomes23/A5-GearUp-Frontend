@@ -6,6 +6,7 @@ import { statusVariant } from "../../../_components/types";
 import { StatusUpdateButton } from "./StatusUpdateButton";
 import { getUser } from "@/services/getUser";
 import ReviewsList from "@/app/gear/_components/ReviewsList";
+import { formatDate } from "@/lib/formatDate";
 
 const ProviderOrderDetailPage = async ({ params }: { params: Promise<{ orderId: string }> }) => {
   const { orderId } = await params;
@@ -43,11 +44,11 @@ const ProviderOrderDetailPage = async ({ params }: { params: Promise<{ orderId: 
             </div>
             <div>
               <p className="text-muted-foreground">Start Date</p>
-              <p className="font-medium">{order.startDate}</p>
+              <p className="font-medium">{formatDate(order.startDate)}</p>
             </div>
             <div>
               <p className="text-muted-foreground">End Date</p>
-              <p className="font-medium">{order.endDate}</p>
+              <p className="font-medium">{formatDate(order.endDate)}</p>
             </div>
             {order.gear?.category && (
               <div>

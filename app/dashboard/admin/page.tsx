@@ -8,6 +8,7 @@ import { getAdminRentals } from "./_actions/getAdminRentals";
 import { getAdminPayments } from "./_actions/getAdminPayments";
 import { getAdminGear } from "./_actions/getAdminGear";
 import { roleVariant, statusVariant, statusVariantForUser } from "../_components/types";
+import { formatDate } from "@/lib/formatDate";
 
 const AdminDashboard = async () => {
   const { data: users } = await getUsers({ limit: "100" });
@@ -197,7 +198,7 @@ const AdminDashboard = async () => {
                     <div className="flex flex-col gap-1">
                       <span className="font-medium">{rental.gear?.title ?? "Unknown Gear"}</span>
                       <span className="text-sm text-muted-foreground">
-                        {rental.customer?.email ?? "Unknown"} · {rental.startDate} — {rental.endDate}
+                        {rental.customer?.email ?? "Unknown"} · {formatDate(rental.startDate)} — {formatDate(rental.endDate)}
                       </span>
                     </div>
                     <Badge className={statusVariant(rental.status)}>

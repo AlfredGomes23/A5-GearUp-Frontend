@@ -6,6 +6,7 @@ import { getUserRentals } from "../../_actions/getUserRentals";
 import { getUserGear } from "../../_actions/getUserGear";
 import { UserStatusControl } from "./UserStatusControl";
 import { roleVariant, statusVariant, statusVariantForUser } from "../../../_components/types";
+import { formatDate } from "@/lib/formatDate";
 
 const UserDetailPage = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;
@@ -84,7 +85,7 @@ const UserDetailPage = async ({ params }: { params: Promise<{ id: string }> }) =
                     <div className="flex flex-col gap-1">
                       <span className="font-medium">{rental.gear?.title ?? "Unknown Gear"}</span>
                       <span className="text-sm text-muted-foreground">
-                        {rental.startDate} — {rental.endDate}
+                        {formatDate(rental.startDate)} — {formatDate(rental.endDate)}
                       </span>
                     </div>
                     <div className="flex items-center gap-3">

@@ -35,7 +35,7 @@ const LeaveReviewForm = ({ gearId, existingReview }: Props) => {
     setIsPending(true);
 
     const result = isUpdate
-      ? await updateReview({ id: existingReview.id, rating, comment })
+      ? await updateReview({ id: existingReview!.id, rating, comment })
       : await createReview({ gearId, rating, comment });
 
     setIsPending(false);

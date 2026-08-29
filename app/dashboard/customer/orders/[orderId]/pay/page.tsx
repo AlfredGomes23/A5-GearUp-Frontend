@@ -12,6 +12,7 @@ import {
   PayPageParams,
   statusVariant,
 } from "@/app/dashboard/_components/types";
+import { formatDate } from "@/lib/formatDate";
 
 const OrderPayPage = async ({ params }: { params: PayPageParams }) => {
   const { orderId } = await params;
@@ -86,14 +87,14 @@ const OrderPayPage = async ({ params }: { params: PayPageParams }) => {
                     Start Date
                   </span>
                   <span className="text-lg font-semibold">
-                    {order.startDate}
+                    {formatDate(order.startDate)}
                   </span>
                 </div>
                 <div className="flex flex-col gap-1 p-4 bg-muted/50 rounded-xl">
                   <span className="text-xs text-muted-foreground uppercase tracking-wide">
                     End Date
                   </span>
-                  <span className="text-lg font-semibold">{order.endDate}</span>
+                  <span className="text-lg font-semibold">{formatDate(order.endDate)}</span>
                 </div>
               </div>
             </CardContent>

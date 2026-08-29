@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { getMyOrders } from "../_actions/getMyOrders";
 import { SearchParams, statusVariant } from "../../_components/types";
+import { formatDate } from "@/lib/formatDate";
 
 
 
@@ -49,7 +50,7 @@ const OrdersPage = async ({ searchParams }: { searchParams: SearchParams }) => {
               <div className="flex flex-col gap-1">
                 <span className="font-medium">{order.gear?.title ?? "Unknown Gear"}</span>
                 <span className="text-sm text-muted-foreground">
-                  {order.startDate} — {order.endDate}
+                  {formatDate(order.startDate)} — {formatDate(order.endDate)}
                 </span>
                 <span className="text-sm font-medium">${order.totalPrice}</span>
               </div>

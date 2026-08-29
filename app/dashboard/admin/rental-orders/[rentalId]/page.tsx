@@ -5,6 +5,7 @@ import { getRentalById } from "../../_actions/getRentalById";
 import { statusVariant } from "../../../_components/types";
 import { getUser } from "@/services/getUser";
 import ReviewsList from "@/app/gear/_components/ReviewsList";
+import { formatDate } from "@/lib/formatDate";
 
 const AdminRentalDetailPage = async ({ params }: { params: Promise<{ rentalId: string }> }) => {
   const { rentalId } = await params;
@@ -37,11 +38,11 @@ const AdminRentalDetailPage = async ({ params }: { params: Promise<{ rentalId: s
             </div>
             <div>
               <p className="text-muted-foreground">Start Date</p>
-              <p className="font-medium">{rental.startDate}</p>
+              <p className="font-medium">{formatDate(rental.startDate)}</p>
             </div>
             <div>
               <p className="text-muted-foreground">End Date</p>
-              <p className="font-medium">{rental.endDate}</p>
+              <p className="font-medium">{formatDate(rental.endDate)}</p>
             </div>
             {rental.gear?.category?.name && (
               <div>
