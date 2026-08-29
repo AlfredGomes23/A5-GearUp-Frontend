@@ -9,15 +9,13 @@ export const verifyReqUser = async (cookies: RequestCookies) => {
     
     // get tokens from req
     let accessToken = cookies.get('accessToken')?.value;
-    const refreshToken = cookies.get('refreshToken')?.value;
 
-    // verify tokens
+    // verify token
     let decodedAccessToken = accessToken ? verifyJwtToken(accessToken, process.env.JWT_ACCESS_SECRET as string) : null;
 
-    const decodedRefreshToken = refreshToken ? verifyJwtToken(refreshToken, process.env.JWT_REFRESH_SECRET as string) : null;
-
-    // refresh access token
-    if (!decodedAccessToken?.success && !decodedRefreshToken?.success) {
+    // refresh access token when access token expired
+    // backend validates refresh token; if refresh also expired it rejects -> auto logout
+    if (!decodedAccessToken?.success) {
         const result = await getNewAccessToken();
         // update access token
         if (result?.success) {

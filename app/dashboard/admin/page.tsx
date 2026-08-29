@@ -32,12 +32,8 @@ const AdminDashboard = async () => {
 
   return (
     <div className="flex flex-col gap-6">
-      <div>
-        <h1 className="text-2xl font-bold">Admin Dashboard</h1>
-        <p className="text-muted-foreground">Platform overview of users, rentals &amp; payments.</p>
-      </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground">Users</CardTitle>
@@ -152,18 +148,18 @@ const AdminDashboard = async () => {
                     className="flex items-center justify-between p-3 rounded-lg border hover:bg-muted/50 transition-colors"
                   >
                     <div className="flex flex-col gap-1">
-                      <span className="font-medium">{user.email}</span>
-                      <span className="text-sm text-muted-foreground">
-                        {user.name || user.role}
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-2">
                       <Badge className={roleVariant(user.role)}>
                         {user.role}
                       </Badge>
+                      <span className="font-medium">{user.email}</span>
+                    </div>
+                    <div className="flex flex-col items-center gap-2">
                       <Badge className={statusVariantForUser(user.status)}>
                         {user.status}
                       </Badge>
+                      <span className="text-sm text-muted-foreground">
+                        {user.name || user.role}
+                      </span>
                     </div>
                   </Link>
                 ))}
@@ -198,12 +194,15 @@ const AdminDashboard = async () => {
                     <div className="flex flex-col gap-1">
                       <span className="font-medium">{rental.gear?.title ?? "Unknown Gear"}</span>
                       <span className="text-sm text-muted-foreground">
-                        {rental.customer?.email ?? "Unknown"} · {formatDate(rental.startDate)} — {formatDate(rental.endDate)}
+                        {formatDate(rental.startDate)} — {formatDate(rental.endDate)}
                       </span>
                     </div>
+                    <div className="flex flex-col items-center gap-2">
                     <Badge className={statusVariant(rental.status)}>
                       {rental.status}
                     </Badge>
+                    {rental.customer?.email ?? "Unknown"}
+                    </div>
                   </Link>
                 ))}
               </div>
@@ -236,15 +235,15 @@ const AdminDashboard = async () => {
                   className="flex items-center justify-between p-3 rounded-lg border hover:bg-muted/50 transition-colors"
                 >
                   <div className="flex flex-col gap-1">
-                    <span className="font-medium">Order #{payment.rentalOrder?.id.slice(0, 8) ?? "Unknown"}</span>
+                    <span className="font-medium">Order #{payment.rentalOrder?.id}</span>
                     <span className="text-sm text-muted-foreground">
-                      {payment.paidAt
+                      Paid <span className="font-medium text-primary/80">${payment.amount}</span> at: {payment.paidAt
                         ? new Date(payment.paidAt).toLocaleDateString()
                         : new Date(payment.createdAt).toLocaleDateString()}
                     </span>
                   </div>
                   <div className="flex items-center gap-3">
-                    <span className="font-medium text-primary">${payment.amount}</span>
+                    
                     <Badge className={statusVariant(payment.status)}>
                       {payment.status}
                     </Badge>
